@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stark Office</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/app.js" defer></script>
+</head>
+<body>
+  <div class="container">
+
+    <div class="left-menu">
+      <!-- LOGO -->
+      <div class="stark-logo">
+        <img src="assets/images/stark-logo.png" alt="Stark">
+        <h2 class="office">office</h2>
+      </div>
+
+      <!-- MENU ITEMS -->
+      <ul id="left-btn-list">
+        <li class="left-menu-btn left-menu-active dashboard-btn"><i class="left-menu-icon"><ion-icon name="speedometer-outline"></ion-icon></i></ion-icon><span class="left-menu-title">Dashboard</span></li>
+        <li class="left-menu-btn jobs-btn"><i class="left-menu-icon"><ion-icon name="list-outline"></ion-icon></i></ion-icon></i><span class="left-menu-title">Jobs</span></li>
+        <li class="left-menu-btn clients-btn"><i class="left-menu-icon"><ion-icon name="person-outline"></ion-icon></i><span class="left-menu-title">Clients</span></li>
+        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="people-circle-outline"></ion-icon></i><span class="left-menu-title">Work Groups</span></li>
+        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="person-circle-outline"></ion-icon></i><span class="left-menu-title">Employees</span></li>
+        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="archive-outline"></ion-icon></i><span class="left-menu-title">Archives</span></li>
+        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="book-outline"></ion-icon></i><span class="left-menu-title">Library</span></li>
+      </ul>
+    </div>
+
+    <div class="display-area">
+      <div class="noti-bar">
+        <div class="noti-bar-title">
+          <i class="noti-bar-arrow"><ion-icon name="arrow-back-circle-outline"></ion-icon></i><h2 class="bar-title">DASHBOARD</h2>
+        </div>
+        
+      </div>
+      <div class="display-container">
+        <div class="dashboard-container">
+          <div class="cards-space">
+            <div class="cards">
+              <div class="cards-title-box blue">
+                <p class="card-title">UPCOMING JOBS</p>
+              </div>
+            </div>
+            <div class="cards">
+              <div class="cards-title-box purple">
+                <p class="card-title">ACTIVE JOBS</p>
+              </div>
+            </div>
+            <div class="cards">
+              <div class="cards-title-box red">
+                <p class="card-title">PENDING JOBS</p>
+              </div>
+            </div>
+            <div class="cards">
+              <div class="cards-title-box green">
+                <p class="card-title">COMPLETED JOBS</p>
+              </div>
+            </div>
+          </div>
+          <div class="updates">
+            <div class="update-title-box">
+              <h2 class="update-title">UPDATES</h2>
+            </div>
+            <div class="update-texts">
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="job-container">
+          <div class="new-job-bar">
+            <form action="" class="add-new-job" autocomplete="off">
+              <input type="text" name="CLIENT" id="job-client" placeholder="CLIENT">
+              <input type="text" name="SERVICING" id="job-service" placeholder="SERVICING">
+              <input type="text" name="JOB TITLE" id="job-title" placeholder="JOB TITLE">
+              <input type="text" name="JOB TYPE" id="job-type" placeholder="JOB TYPE">
+              <input type="date" name="JOB DATE" id="job-date">
+              <input type="button" value="ADD NEW JOB">
+            </form>
+          </div>
+
+          <div class="job-list">
+            <div class="jobs">
+              <div class="jobs-number"><p>No.</p></div>
+              <div class="jobs-client"><p>Client</p></div>
+              <div class="jobs-branch"><p>Branch</p></div>
+              <div class="jobs-servicing"><p>Servicing</p></div>
+              <div class="jobs-title"><p>Job Title</p></div>
+              <div class="jobs-type"><p>Job Type</p></div>
+              <div class="jobs-added"><p>Added Date</p></div>
+              <div class="jobs-status"><p>Job Status</p></div>
+              <div class="jobs-submit"><p>Submit Date</p></div>
+            </div>
+            <div class="new-jobs">
+              <div class="jobs-number"><p>No.</p></div>
+              <div class="jobs-client"><p>Client</p></div>
+              <div class="jobs-branch"><p>Branch</p></div>
+              <div class="jobs-servicing"><p>Servicing</p></div>
+              <div class="jobs-title"><p>Job Title</p></div>
+              <div class="jobs-type"><p>Job Type</p></div>
+              <div class="jobs-added"><p>Added Date</p></div>
+              <div class="jobs-status"><p>Job Status</p></div>
+              <div class="jobs-submit"><p>Submit Date</p></div>
+              <div class="jobs-edit"><p><ion-icon name="create-outline"></ion-icon></p></div>
+              <div class="jobs-delete"><p><ion-icon name="trash-outline"></ion-icon></p></div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="clients-container">
+          <div class="add-client-btn">
+            <h2 class="add-client-text"><i class="add-client-icon"><ion-icon name="add-circle-outline"></ion-icon></i>ADD NEW CLIENT</h2>
+          </div>
+          <div class="client-list">
+            <div class="clients">
+              <div class="client-number"><p>No.</p></div>
+              <div class="client-name"><p>Client</p></div>
+              <div class="client-address"><p>Address</p></div>
+              <div class="client-city"><p>City</p></div>
+              <div class="client-person-incharge"><p>Person Incharge</p></div>
+              <div class="client-email"><p>Email</p></div>
+              <div class="client-phone"><p>Phone</p></div>
+            </div>
+            <div class="new-clients">
+              <div class="client-number"><p>No.</p></div>
+              <div class="client-name"><p>Client</p></div>
+              <div class="client-address"><p>Address</p></div>
+              <div class="client-city"><p>City</p></div>
+              <div class="client-person-incharge"><p>Person Incharge</p></div>
+              <div class="client-email"><p>Email</p></div>
+              <div class="client-phone"><p>Phone</p></div>
+            </div>
+          </div>
+
+          <div class="new-client-form">
+            <h2>Client Details</h2>
+            <table class="new-client-table">
+              <tr>
+                <td class="new-client-first-column"><label for="new-client-name"></label>Client Name</td>
+                <td class="new-client-second-column"><input type="text" name="" id="new-client-name"></td>
+              </tr>
+              <tr>
+                <td class="new-client-first-column"><label for="new-client-address"></label>Address</td>
+                <td class="new-client-second-column"><input type="text" name="" id="new-client-address"></td>
+              </tr>
+              <tr>
+                <td class="new-client-first-column"><label for="new-client-city"></label>City</td>
+                <td class="new-client-second-column"><input type="text" name="" id="new-client-city"></td>
+              </tr>
+              <tr>
+                <td class="new-client-first-column"><label for="new-client-person"></label>Person Incharge</td>
+                <td class="new-client-second-column"><input type="text" name="" id="new-client-person"></td>
+              </tr>
+              <tr>
+                <td class="new-client-first-column"><label for="new-client-email"></label>Email</td>
+                <td class="new-client-second-column"><input type="email" name="" id="new-client-email"></td>
+              </tr>
+              <tr>
+                <td class="new-client-first-column"><label for="new-client-phone"></label>Phone</td>
+                <td class="new-client-second-column"><input type="text" name="" id="new-client-phone"></td>
+              </tr>
+            </table>
+            <div class="new-client-form-btns">
+              <input type="button" value="CANCEL">
+              <input type="button" value="ADD NEW CLIENT">
+            </div>
+            
+          </div>
+        </div>
+      
+
+    </div>
+  </div>
+<script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js" ></script>
+</body>
+</html>
