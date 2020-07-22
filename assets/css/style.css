@@ -501,25 +501,27 @@ body {
 .clients p {
     color: white;
     margin: 0;
+    padding: 0;
     text-align: center;
     text-transform: uppercase;
 }
 
 .new-clients {
-    font-size: 14px;
-    height: 30px;
+    height: auto;
     margin-bottom: 2px;
-    width: 100%;
-    display: block;
+    width: 1112px;
+    display: inline-block;
+    border-bottom: 1px solid gray;
 }
 
-.new-clients div {
+.client-ele-div {
     padding: 5px;
     height: auto;
     display: inline-block;
     position: relative;
-    border-right: 1px solid white;
-    vertical-align: top;
+    /* border-right: 1px solid white; */
+    /* border-bottom: 1px solid white; */
+    vertical-align: middle;
 }
 
 .new-clients p {
@@ -527,16 +529,15 @@ body {
     color: black;
     margin: 0;
     text-align: center;
-    /* text-transform: uppercase; */
-    
 }
 
 .client-number {
     width: 40px;
-    
+    margin: 0;
 }
 .client-name {
     width: 150px;
+    margin: 0;
 }
 .client-address {
     width: 200px;

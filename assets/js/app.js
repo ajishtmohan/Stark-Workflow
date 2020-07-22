@@ -17,9 +17,14 @@ var jobController = (function() {
 
     return {
         addNewClient: function(clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone) {
-            var clientID = 0;
+
+            if (data.clientData.length == 0) {
+                clientID = 'CLI-' + 1;
+            } else if (data.clientData.length > 0) {
+                clientID = 'CLI-' + (data.clientData.length + 1);
+            }
+
             var newClientAdded = new ClientDetails(clientID, clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone);
-            console.log(newClientAdded);
 
             data.clientData.push(newClientAdded);
 
@@ -168,25 +173,38 @@ var UIController = (function() {
         },
 
         addClientListItem: function(obj) {
-            var html, newHtml, element, clientInfo;
+            var html, element, slNo, totalClients;
+
+            totalClients = document.querySelector('.client-list-container').querySelectorAll('.new-clients');
+            console.log(totalClients);
+
+            if (totalClients.length == 0) {
+                slNo = 1;
+            } else if (totalClients.length > 0) {
+                slNo = totalClients.length + 1;
+            }
 
             element = DOMstrings.clientContainer;
 
-            clientInfo = [1, DOMstrings.inputClientName, DOMstrings.inputClientAddress, DOMstrings.inputClientCity, DOMstrings.inputClientRep, DOMstrings.inputClientEmail, DOMstrings.inputClientPhone]
-
             html = `<div class="new-clients">
-                        <div class="client-number"><p>No.</p></div>
-                        <div class="client-name"><p>${obj.clientName}</p></div>
-                        <div class="client-address"><p>${obj.clientAddress}</p></div>
-                        <div class="client-city"><p>${obj.clientCity}</p></div>
-                        <div class="client-person-incharge"><p>${obj.clientRep}</p></div>
-                        <div class="client-email"><p>${obj.clientEmail}</p></div>
-                        <div class="client-phone"><p>${obj.clientPhone}</p></div>
+                        <div class="client-number client-ele-div"><p>${slNo}</p></div>
+                        <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
+                        <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
+                        <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
+                        <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
+                        <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
+                        <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
                     </div>`,
 
-            console.log(html);
-
+            
             document.querySelector(element).insertAdjacentHTML('beforeend', html);
+
+            slNo ++;
+
+            
+            
+
+            return totalClients;
 
         },
 
@@ -200,6 +218,10 @@ var UIController = (function() {
 
         getDOMstrings: function() {
             return DOMstrings;
+        },
+
+        getTotalClients: function() {
+            console.log(totalClients);
         }
     }
     
@@ -237,11 +259,9 @@ var controller = (function(jobCtrl, UICtrl) {
 
         // 1. Get Client Data from UI
         inputCL = UICtrl.getClientData();
-        console.log(inputCL);
 
         // 2. Add the client data to 'data'
         newClient = jobCtrl.addNewClient(inputCL.clientName, inputCL.clientAddress, inputCL.clientCity, inputCL.clientRep, inputCL.clientEmail, inputCL.clientPhone);
-        console.log(newClient);
 
         UICtrl.clearClientForm();
         UICtrl.hideClientForm();
