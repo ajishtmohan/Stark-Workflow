@@ -1,5 +1,5 @@
 // 1. Job Controller
-var jobController = (function() {
+var clientController = (function() {
 
     var ClientDetails = function(clientID, clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone) {
         this.clientID = clientID;
@@ -228,7 +228,7 @@ var UIController = (function() {
 })();
 
 // 3. Central Controller
-var controller = (function(jobCtrl, UICtrl) {
+var controller = (function(clientCtrl, UICtrl) {
 
     var setupEventlisteners = function() {
         // Hide Side Menu Bar
@@ -261,11 +261,10 @@ var controller = (function(jobCtrl, UICtrl) {
         inputCL = UICtrl.getClientData();
 
         // 2. Add the client data to 'data'
-        newClient = jobCtrl.addNewClient(inputCL.clientName, inputCL.clientAddress, inputCL.clientCity, inputCL.clientRep, inputCL.clientEmail, inputCL.clientPhone);
+        newClient = clientCtrl.addNewClient(inputCL.clientName, inputCL.clientAddress, inputCL.clientCity, inputCL.clientRep, inputCL.clientEmail, inputCL.clientPhone);
 
         UICtrl.clearClientForm();
         UICtrl.hideClientForm();
-        
 
         // 3. Update the Client UI
         UICtrl.addClientListItem(newClient);
@@ -282,6 +281,6 @@ var controller = (function(jobCtrl, UICtrl) {
         }
         
     }
-})(jobController, UIController);
+})(clientController, UIController);
 
 controller.init();
