@@ -10,7 +10,6 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: rgb(192, 192, 192);
-    
 }
 
 /* /////////////////////////////// LEFT MENU /////////////////////////////// */
@@ -395,7 +394,7 @@ body {
 
 .add-client-btn {
     display: inline-block;
-    width: auto;
+    width: 216px;
     height: 40px;
     background-color: black;
     padding: 10px;
@@ -409,7 +408,7 @@ body {
     /* padding-left: 10px; */
     margin: 0;
     font-weight: 300;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
 .add-client-icon {
@@ -428,7 +427,7 @@ body {
 }
 
 .new-client-form {
-    position: relative;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -440,9 +439,10 @@ body {
     font-size: 14px;
     padding: 15px;
     box-sizing: border-box;
-    display: block;
-    opacity: 1;
+    display: none;
+    opacity: 0;
     transition: .3s;
+    box-shadow: 0 0 3px gray;
 }
 
 .new-client-form h2 {
