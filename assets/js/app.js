@@ -22,6 +22,8 @@ var jobController = (function() {
             console.log(newClientAdded);
 
             data.clientData.push(newClientAdded);
+
+            return newClientAdded;
         },
 
         testing: function() {
@@ -46,7 +48,7 @@ var UIController = (function() {
         inputClientPhone: '#new-client-phone',
 
         // Client List
-        clientContainer: '.new-clients',
+        clientContainer: '.client-list-container',
     }
 
     var hideSideMenu = function() {
@@ -165,16 +167,26 @@ var UIController = (function() {
             fieldsArr[0].focus();
         },
 
-        addClientListItem: function() {
+        addClientListItem: function(obj) {
             var html, newHtml, element, clientInfo;
 
             element = DOMstrings.clientContainer;
 
             clientInfo = [1, DOMstrings.inputClientName, DOMstrings.inputClientAddress, DOMstrings.inputClientCity, DOMstrings.inputClientRep, DOMstrings.inputClientEmail, DOMstrings.inputClientPhone]
 
-            html = `<div class="client-number"><p>No</p></div><div class="client-name"><p>${jobController.newClientAdded.clientName}</p></div><div class="client-address"><p>Address</p></div><div class="client-city"><p>City</p></div><div class="client-person-incharge"><p>clientRep</p></div><div class="client-email"><p>Email</p></div><div class="client-phone"><p>Phone</p></div>`,
+            html = `<div class="new-clients">
+                        <div class="client-number"><p>No.</p></div>
+                        <div class="client-name"><p>${obj.clientName}</p></div>
+                        <div class="client-address"><p>${obj.clientAddress}</p></div>
+                        <div class="client-city"><p>${obj.clientCity}</p></div>
+                        <div class="client-person-incharge"><p>${obj.clientRep}</p></div>
+                        <div class="client-email"><p>${obj.clientEmail}</p></div>
+                        <div class="client-phone"><p>${obj.clientPhone}</p></div>
+                    </div>`,
 
             console.log(html);
+
+            document.querySelector(element).insertAdjacentHTML('beforeend', html);
 
         },
 
@@ -229,13 +241,14 @@ var controller = (function(jobCtrl, UICtrl) {
 
         // 2. Add the client data to 'data'
         newClient = jobCtrl.addNewClient(inputCL.clientName, inputCL.clientAddress, inputCL.clientCity, inputCL.clientRep, inputCL.clientEmail, inputCL.clientPhone);
+        console.log(newClient);
 
         UICtrl.clearClientForm();
         UICtrl.hideClientForm();
         
 
         // 3. Update the Client UI
-        UICtrl.addClientListItem();
+        UICtrl.addClientListItem(newClient);
 
     };
 

@@ -493,7 +493,10 @@ body {
     border-right: 1px solid white;
 }
 
-
+.client-list-container {
+    width: 100%;
+    height: auto;
+}
 
 .clients p {
     color: white;
@@ -506,26 +509,32 @@ body {
     font-size: 14px;
     height: 30px;
     margin-bottom: 2px;
+    width: 100%;
+    display: block;
 }
 
 .new-clients div {
     padding: 5px;
+    height: auto;
     display: inline-block;
     position: relative;
     border-right: 1px solid white;
+    vertical-align: top;
 }
 
 .new-clients p {
-    color: gray;
+    font-size: 12px;
+    color: black;
     margin: 0;
     text-align: center;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
+    
 }
 
 .client-number {
     width: 40px;
+    
 }
-
 .client-name {
     width: 150px;
 }
@@ -539,7 +548,8 @@ body {
     width: 150px;
 }
 .client-email {
-    width: 120px;
+    width: 200px;
+    text-transform: lowercase;
 }
 .client-phone {
     width: 120px;
