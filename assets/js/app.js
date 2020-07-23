@@ -12,9 +12,11 @@ var clientController = (function() {
     };
 
     var data = {
-        clientData: [],
-    };
+        clientData: [
 
+        ],
+    };
+    
     return {
         addNewClient: function(clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone) {
 
@@ -33,15 +35,19 @@ var clientController = (function() {
 
         testing: function() {
             console.log(data);
-        }
+        },
+        getData: function() {
+            return data;
+        },
     }
+
     
 })();
 
 
 
 // 2. UI Controller
-var UIController = (function() {
+var UIController = (function(clientCtrl) {
 
     var DOMstrings = {
         // New Client Form
@@ -132,11 +138,25 @@ var UIController = (function() {
         }
     };
 
+    var clientFormState;
     var showClientForm = function() {
         document.querySelector('.new-client-form').style.display = 'block';
         setTimeout(function() { 
             document.querySelector('.new-client-form').style.opacity = '1';
-        }, 300);
+        }, 100);
+        
+    };
+
+    var clearClientForm = function() {
+        var fields, fieldsArr;
+
+        fields = document.querySelectorAll(DOMstrings.inputClientName + ', ' + DOMstrings.inputClientAddress + ', ' + DOMstrings.inputClientCity + ', ' + DOMstrings.inputClientRep + ', ' + DOMstrings.inputClientEmail + ', ' + DOMstrings.inputClientPhone);
+
+        fieldsArr = Array.prototype.slice.call(fields);
+        fieldsArr.forEach(function(current, index, array) {
+            current.value = '';
+        });
+        fieldsArr[0].focus();
     };
 
     var hideClientForm = function() {
@@ -160,52 +180,96 @@ var UIController = (function() {
             }
         },
 
-        clearClientForm: function() {
-            var fields, fieldsArr;
+        
 
-            fields = document.querySelectorAll(DOMstrings.inputClientName + ', ' + DOMstrings.inputClientAddress + ', ' + DOMstrings.inputClientCity + ', ' + DOMstrings.inputClientRep + ', ' + DOMstrings.inputClientEmail + ', ' + DOMstrings.inputClientPhone);
+        // addClientListItem: function(obj) {
+        //     var html, element, slNo, totalClients;
 
-            fieldsArr = Array.prototype.slice.call(fields);
-            fieldsArr.forEach(function(current, index, array) {
-                current.value = '';
-            });
-            fieldsArr[0].focus();
-        },
+        //     totalClients = document.querySelector('.client-list-container').querySelectorAll('.new-clients');
+        //     console.log(totalClients);
 
-        addClientListItem: function(obj) {
-            var html, element, slNo, totalClients;
+        //     if (totalClients.length == 0) {
+        //         slNo = 1;
+        //     } else if (totalClients.length > 0) {
+        //         slNo = totalClients.length + 1;
+        //     }
 
+        //     element = DOMstrings.clientContainer;
+
+        //     html = `<div class="new-clients">
+        //                 <div class="client-number client-ele-div"><p>${slNo}</p></div>
+        //                 <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
+        //                 <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
+        //                 <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
+        //                 <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
+        //                 <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
+        //                 <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
+        //             </div>`,
+
+            
+        //     document.querySelector(element).insertAdjacentHTML('beforeend', html);
+
+        //     slNo ++;
+
+        //     return totalClients;
+
+        // },
+
+
+        addClientListItem: function() {
+            var storedClientData, totalClients, element, slNo;
+
+            // Get stored data
+            storedClientData = clientCtrl.getData().clientData;
+            console.log(storedClientData);
+
+            // Select all clients from list
             totalClients = document.querySelector('.client-list-container').querySelectorAll('.new-clients');
             console.log(totalClients);
 
-            if (totalClients.length == 0) {
-                slNo = 1;
-            } else if (totalClients.length > 0) {
-                slNo = totalClients.length + 1;
+            // Remove all clients from Client List
+            for (var i = 0; i < totalClients.length; i++) {
+                totalClients[i].remove();
             }
+            console.log(totalClients);
 
             element = DOMstrings.clientContainer;
 
-            html = `<div class="new-clients">
+            for (var i = 0; i < storedClientData.length; i++) {
+
+                if (storedClientData.length == 0) {
+                    slNo = 1;
+                } else if (storedClientData.length > 0){
+                    slNo = storedClientData.length;
+                }
+
+                html = `<div class="new-clients">
                         <div class="client-number client-ele-div"><p>${slNo}</p></div>
-                        <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
-                        <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
-                        <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
-                        <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
-                        <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
-                        <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
-                    </div>`,
+                        <div class="client-name client-ele-div"><p>${storedClientData[i].clientName}</p></div>
+                        <div class="client-address client-ele-div"><p>${storedClientData[i].clientAddress}</p></div>
+                        <div class="client-city client-ele-div"><p>${storedClientData[i].clientCity}</p></div>
+                        <div class="client-person-incharge client-ele-div"><p>${storedClientData[i].clientRep}</p></div>
+                        <div class="client-email client-ele-div"><p>${storedClientData[i].clientEmail}</p></div>
+                        <div class="client-phone client-ele-div"><p>${storedClientData[i].clientPhone}</p></div>
+                    </div>`;
 
-            
-            document.querySelector(element).insertAdjacentHTML('beforeend', html);
+                    document.querySelector(element).insertAdjacentHTML('beforeend', html);
 
-            slNo ++;
+                    slNo ++;
 
-            
-            
+            }
 
-            return totalClients;
-
+            // storedClientData.forEach(obj, function(){
+            //     html = `<div class="new-clients">
+            //             <div class="client-number client-ele-div"><p>${slNo}</p></div>
+            //            <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
+            //            <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
+            //            <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
+            //            <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
+            //            <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
+            //            <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
+            //        </div>`;
+            // })
         },
 
         showDashboard,
@@ -215,6 +279,7 @@ var UIController = (function() {
         activateBtn,
         showClientForm,
         hideClientForm,
+        clearClientForm,
 
         getDOMstrings: function() {
             return DOMstrings;
@@ -222,10 +287,14 @@ var UIController = (function() {
 
         getTotalClients: function() {
             console.log(totalClients);
+        },
+
+        getClientFormState: function() {
+            return clientFormState;
         }
     }
     
-})();
+})(clientController);
 
 // 3. Central Controller
 var controller = (function(clientCtrl, UICtrl) {
@@ -251,10 +320,12 @@ var controller = (function(clientCtrl, UICtrl) {
 
         // Add New Client
         document.querySelector('.client-form-submit').addEventListener('click', ctrlAddClient);
+
     }
     
 
     var ctrlAddClient = function() {
+        // UICtrl.getClientFormState();
         var inputCL, newClient;
 
         // 1. Get Client Data from UI
