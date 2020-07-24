@@ -1,4 +1,4 @@
-// 1. Job Controller
+// 1. Client Controller
 var clientController = (function() {
 
     var ClientDetails = function(clientID, clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone) {
@@ -45,7 +45,7 @@ var clientController = (function() {
     
     return {
         addNewClient: function(clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone) {
-
+            var clientID;
             if (data.clientData.length == 0) {
                 clientID = 'CLI-' + 1;
             } else if (data.clientData.length > 0) {
@@ -84,7 +84,10 @@ var clientController = (function() {
     
 })();
 
+// 2. Job Controller
+var jobController = (function(){
 
+});
 
 // 2. UI Controller
 var UIController = (function(clientCtrl) {
@@ -254,7 +257,7 @@ var UIController = (function(clientCtrl) {
                         <div class="client-email client-ele-div"><p>${storedClientData[i].clientEmail}</p></div>
                         <div class="client-phone client-ele-div"><p>${storedClientData[i].clientPhone}</p></div>
                         <div class="client-edit client-ele-div"><p><ion-icon name="create-outline"></ion-icon></p></div>
-                        <div class="client-delete client-ele-div" id="${'D' + storedClientData[i].clientID}"><p><ion-icon name="trash-outline"></ion-icon></p></div>
+                        <div class="client-delete client-ele-div" id="${'D_' + storedClientData[i].clientID}"><p><ion-icon name="trash-outline"></ion-icon></p></div>
                     </div>`;
 
                     document.querySelector(element).insertAdjacentHTML('beforeend', html);
@@ -327,7 +330,7 @@ var controller = (function(clientCtrl, UICtrl) {
 
         // Delete existing client
         document.querySelector('.client-list-container').addEventListener('click', ctrlDeleteClient);
-
+        
     }
 
     
@@ -350,12 +353,21 @@ var controller = (function(clientCtrl, UICtrl) {
 
     };
 
-    var ctrlDeleteClient = function (event) {
-        var itemID;
-        console.log(itemID);
-        itemID = event.target.parentNode.parentNode.parentNode.id;
-        clientCtrl.deleteClient(itemID);
-        UICtrl.updateClientList();
+    var ctrlDeleteClient = function() {
+
+        var clientDeleteBtns = document.getElementsByClassName('client-delete');
+        var clickedID, splitID, itemID;
+        for (var i = 0; i < clientDeleteBtns.length; i++) {
+            clientDeleteBtns[i].onclick = function() {
+                clickedID = this.id;
+                console.log(clickedID);
+                splitID = clickedID.split('_');
+                console.log(splitID);
+                itemID = splitID[1];
+                clientCtrl.deleteClient(itemID);
+                UICtrl.updateClientList(); 
+            }   
+        }
     };
 
 
@@ -366,7 +378,7 @@ var controller = (function(clientCtrl, UICtrl) {
             console.log('App initialised!');
             UICtrl.updateClientList();
             setupEventlisteners();
-            
+            ctrlDeleteClient();  
         }
         
     }
