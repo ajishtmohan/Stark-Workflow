@@ -494,8 +494,17 @@ body {
 }
 
 .client-list-container {
-    width: 100%;
-    height: auto;
+    width: 1225px;
+    height: calc(100vh - 180px);
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.client-list-container::-webkit-scrollbar{
+    width: 3px;
+}
+.client-list-container::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: gray;
 }
 
 .clients p {
@@ -509,7 +518,7 @@ body {
 .new-clients {
     height: auto;
     margin-bottom: 2px;
-    width: 1112px;
+    width: 1200px;
     display: inline-block;
     border-bottom: 1px solid gray;
 }
@@ -519,8 +528,6 @@ body {
     height: auto;
     display: inline-block;
     position: relative;
-    /* border-right: 1px solid white; */
-    /* border-bottom: 1px solid white; */
     vertical-align: middle;
 }
 
@@ -528,6 +535,7 @@ body {
     font-size: 12px;
     color: black;
     margin: 0;
+    padding: 5px;
     text-align: center;
 }
 
@@ -550,8 +558,32 @@ body {
 }
 .client-email {
     width: 200px;
-    text-transform: lowercase;
 }
 .client-phone {
     width: 120px;
+}
+.client-edit {
+    width: 30px;
+}
+.client-edit p{
+    font-size: 16px;
+    width: 30px;
+}
+.client-edit :hover {
+    color: green;
+    cursor: pointer;
+}
+.client-delete {
+    font-size: 20px;
+    width: 30px;
+}
+.client-delete p {
+    font-size: 16px;
+}
+.client-delete :hover {
+    color: white;
+    cursor: pointer;
+    background-color: red;
+    transition: .3s;
+    border-radius: 3px;
 }

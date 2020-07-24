@@ -13,7 +13,33 @@ var clientController = (function() {
 
     var data = {
         clientData: [
-
+            {
+                clientID: 'CLI-1',
+                clientName: 'Karnataka Tourism',
+                clientAddress: '49, 2nd Floor, Khanija Bhavan, Race Course Road',
+                clientCity: 'Bangalore',
+                clientRep: 'Chief Secretary',
+                clientEmail: 'feedback@karnatakatourism.org',
+                clientPhone: '+91-80-2235 2424'
+            },
+            {
+                clientID: 'CLI-2',
+                clientName: 'Kerala Tourism',
+                clientAddress: 'Park Views',
+                clientCity: 'Thiruvananthapuram',
+                clientRep: 'Chief Secretary',
+                clientEmail: 'info@keralatourism.org',
+                clientPhone: '+91-471-2322279'
+            },
+            {
+                clientID: 'CLI-3',
+                clientName: 'Tamilnadu Tourism',
+                clientAddress: 'Tamil Nadu Tourism Complex, No.2 Wallajah Road',
+                clientCity: 'Chennai',
+                clientRep: 'Chief Secretary',
+                clientEmail: 'support@ttdconline.com',
+                clientPhone: '+91-44-25333850'
+            },
         ],
     };
     
@@ -31,6 +57,20 @@ var clientController = (function() {
             data.clientData.push(newClientAdded);
 
             return newClientAdded;
+        },
+
+        deleteClient: function(itemID) {
+            var clientIDs, index;
+            clientIDs = data.clientData.map(function(current){
+                return current.clientID;
+            });
+
+            index = clientIDs.indexOf(itemID);
+
+            if (index !== -1) {
+                data.clientData.splice(index, 1);
+            }
+            
         },
 
         testing: function() {
@@ -180,58 +220,20 @@ var UIController = (function(clientCtrl) {
             }
         },
 
-        
 
-        // addClientListItem: function(obj) {
-        //     var html, element, slNo, totalClients;
-
-        //     totalClients = document.querySelector('.client-list-container').querySelectorAll('.new-clients');
-        //     console.log(totalClients);
-
-        //     if (totalClients.length == 0) {
-        //         slNo = 1;
-        //     } else if (totalClients.length > 0) {
-        //         slNo = totalClients.length + 1;
-        //     }
-
-        //     element = DOMstrings.clientContainer;
-
-        //     html = `<div class="new-clients">
-        //                 <div class="client-number client-ele-div"><p>${slNo}</p></div>
-        //                 <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
-        //                 <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
-        //                 <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
-        //                 <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
-        //                 <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
-        //                 <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
-        //             </div>`,
-
-            
-        //     document.querySelector(element).insertAdjacentHTML('beforeend', html);
-
-        //     slNo ++;
-
-        //     return totalClients;
-
-        // },
-
-
-        addClientListItem: function() {
+        updateClientList: function() {
             var storedClientData, totalClients, element, slNo;
 
             // Get stored data
             storedClientData = clientCtrl.getData().clientData;
-            console.log(storedClientData);
 
             // Select all clients from list
             totalClients = document.querySelector('.client-list-container').querySelectorAll('.new-clients');
-            console.log(totalClients);
 
             // Remove all clients from Client List
             for (var i = 0; i < totalClients.length; i++) {
                 totalClients[i].remove();
             }
-            console.log(totalClients);
 
             element = DOMstrings.clientContainer;
 
@@ -243,14 +245,16 @@ var UIController = (function(clientCtrl) {
                     slNo = storedClientData.length;
                 }
 
-                html = `<div class="new-clients">
-                        <div class="client-number client-ele-div"><p>${slNo}</p></div>
+                html = `<div class="new-clients" id="${storedClientData[i].clientID}">
+                        <div class="client-number client-ele-div"><p>${i + 1}</p></div>
                         <div class="client-name client-ele-div"><p>${storedClientData[i].clientName}</p></div>
                         <div class="client-address client-ele-div"><p>${storedClientData[i].clientAddress}</p></div>
                         <div class="client-city client-ele-div"><p>${storedClientData[i].clientCity}</p></div>
                         <div class="client-person-incharge client-ele-div"><p>${storedClientData[i].clientRep}</p></div>
                         <div class="client-email client-ele-div"><p>${storedClientData[i].clientEmail}</p></div>
                         <div class="client-phone client-ele-div"><p>${storedClientData[i].clientPhone}</p></div>
+                        <div class="client-edit client-ele-div"><p><ion-icon name="create-outline"></ion-icon></p></div>
+                        <div class="client-delete client-ele-div" id="${'D' + storedClientData[i].clientID}"><p><ion-icon name="trash-outline"></ion-icon></p></div>
                     </div>`;
 
                     document.querySelector(element).insertAdjacentHTML('beforeend', html);
@@ -260,7 +264,7 @@ var UIController = (function(clientCtrl) {
             }
 
             // storedClientData.forEach(obj, function(){
-            //     html = `<div class="new-clients">
+            //     html = `<div class="new-clients" id="CLI-0">
             //             <div class="client-number client-ele-div"><p>${slNo}</p></div>
             //            <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
             //            <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
@@ -321,7 +325,11 @@ var controller = (function(clientCtrl, UICtrl) {
         // Add New Client
         document.querySelector('.client-form-submit').addEventListener('click', ctrlAddClient);
 
+        // Delete existing client
+        document.querySelector('.client-list-container').addEventListener('click', ctrlDeleteClient);
+
     }
+
     
 
     var ctrlAddClient = function() {
@@ -338,17 +346,27 @@ var controller = (function(clientCtrl, UICtrl) {
         UICtrl.hideClientForm();
 
         // 3. Update the Client UI
-        UICtrl.addClientListItem(newClient);
+        UICtrl.updateClientList();
 
+    };
+
+    var ctrlDeleteClient = function (event) {
+        var itemID;
+        console.log(itemID);
+        itemID = event.target.parentNode.parentNode.parentNode.id;
+        clientCtrl.deleteClient(itemID);
+        UICtrl.updateClientList();
     };
 
 
     return {
         init: function() {
-            UICtrl.showClients()
-            UICtrl.activateBtn()
-            console.log('App initialised!')
+            UICtrl.showClients();
+            UICtrl.activateBtn();
+            console.log('App initialised!');
+            UICtrl.updateClientList();
             setupEventlisteners();
+            
         }
         
     }
