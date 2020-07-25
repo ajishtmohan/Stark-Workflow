@@ -181,10 +181,10 @@ body {
 /* /////////////////////////////// DASHBOARD CONTAINER /////////////////////////////// */
 
 .dashboard-container {
-    display: none;
     width: 100%;
     margin: 20px auto;
     height: calc(100vh - 110px);
+    opacity: 0;
 }
 
 .cards-space {
@@ -613,6 +613,9 @@ body {
     width: 100%;
     margin: 20px auto;
     height: calc(100vh - 110px);
+    display: none;
+    opacity: 0;
+    transition: 1s;
 }
 
 .new-emp-bar {

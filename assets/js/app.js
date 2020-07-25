@@ -208,7 +208,7 @@ var UIController = (function(clientCtrl) {
         hideJobs();
         hideClients();
         hideEmployees();
-        document.querySelector('.workgroup-container').style.display = 'block'
+        document.querySelector('.workgroup-container').style.display = 'block';
         document.querySelector('.bar-title').textContent = 'WORK GROUPS';
     }
 
@@ -218,10 +218,18 @@ var UIController = (function(clientCtrl) {
         hideClients();
         hideWorkGroups();
         document.querySelector('.bar-title').textContent = 'EMPLOYEES';
+        document.querySelector('.employee-container').style.display = 'block';
+        setTimeout(function() { 
+            document.querySelector('.employee-container').style.opacity = '1';
+        }, 300);
     };
     
     var hideDashboard = function() {
-        document.querySelector('.dashboard-container').style.display = 'none';
+        document.querySelector('.dashboard-container').style.opacity = '0';
+        setTimeout(function() { 
+            document.querySelector('.dashboard-container').style.display = 'none';
+        }, 300);
+        
     };
 
     var hideJobs = function() {
