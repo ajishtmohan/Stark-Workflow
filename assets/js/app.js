@@ -61,24 +61,6 @@ var clientController = (function() {
             return newClientAdded;
         },
 
-        updateDataClientList: function() {
-            clientDatabase.clientList.map(function(cur){
-                length = clientDatabase.clientList.length;
-                for (var i = 0; i < length; i++) {
-                    clientDatabase.clientList[i].remove();
-                }
-            });
-
-            clientDatabase.clientData.map(function(){
-                var unsorted = [];
-                length = clientDatabase.clientData.length;
-                for (var i = 0; i < length; i++) {
-                    
-                }
-            });
-
-        },
-
         deleteClient: function(itemID) {
             var clientIDs, index;
             clientIDs = clientDatabase.clientData.map(function(current){
@@ -93,6 +75,25 @@ var clientController = (function() {
             
         },
 
+        updateDataClientList: function() {
+            clientDatabase.clientList.forEach(function(cur){
+                length = clientDatabase.clientList.length;
+                for (var i = 0; i < length; i++) {
+                    clientDatabase.clientList[i].remove();
+                }
+            });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+            clientDatabase.clientData.map(function(){
+                var unsorted = [];
+                var sorted;
+                length = clientDatabase.clientData.length;
+                for (var i = 0; i < length; i++) {
+                    clientDatabase.clientList.push(clientDatabase.clientData[i].clientName);
+                };
+            });
+        },
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         testing: function() {
             console.log(clientDatabase);
         },
@@ -100,8 +101,6 @@ var clientController = (function() {
             return clientDatabase;
         },
     }
-
-    
 })();
 
 // 2. Job Controller
@@ -317,30 +316,32 @@ var UIController = (function(clientCtrl) {
             }
 
             // storedClientData.forEach(obj, function(){
-            //     html = `<div class="new-clients" id="CLI-0">
-            //             <div class="client-number client-ele-div"><p>${slNo}</p></div>
-            //            <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
-            //            <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
-            //            <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
-            //            <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
-            //            <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
-            //            <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
-            //        </div>`;
+            //     html =   `<div class="new-clients" id="CLI-0">
+                //            <div class="client-number client-ele-div"><p>${slNo}</p></div>
+                //            <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
+                //            <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
+                //            <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
+                //            <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
+                //            <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
+                //            <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
+            //              </div>`;
             // })
         },
 
         updateClientDropdown: function() {
             var clientsHTML;
+            var clientDropdownList = [];
 
-            var updateClientDropdownList = document.getElementById('addedClientList');
-            for (var i = 0; i < updateClientDropdownList.length; i++) {
-                updateClientDropdownList[i].remove();
-            }
+            clientDropdownList = document.getElementById('addedClientList').querySelectorAll('.clientDropdownItem');
+            console.log(clientDropdownList);
+            for (var i = 0; i < clientDropdownList.length; i++) {
+                clientDropdownList[i].remove();
+            };
 
             clientCtrl.getData().clientData.map(function(cur) {
                 clientsHTML =   `<select name="Client Name" id="addedClientList">
-                                <option value="${cur.clientName}">${cur.clientName}</option>
-                            </select>`
+                                    <option value="${cur.clientName}">${cur.clientName}</option>
+                                </select>`;
                 
             document.getElementById('addedClientList').insertAdjacentHTML('beforeend', clientsHTML);
             })
