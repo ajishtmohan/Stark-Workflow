@@ -11,7 +11,7 @@ var clientController = (function() {
         this.clientPhone = clientPhone;
     };
 
-    var data = {
+    var clientDatabase = {
         clientData: [
             {
                 clientID: 'CLI-1',
@@ -48,45 +48,50 @@ var clientController = (function() {
     return {
         addNewClient: function(clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone) {
             var clientID;
-            if (data.clientData.length == 0) {
+            if (clientDatabase.clientData.length == 0) {
                 clientID = 'CLI-' + 1;
-            } else if (data.clientData.length > 0) {
-                clientID = 'CLI-' + (data.clientData.length + 1);
+            } else if (clientDatabase.clientData.length > 0) {
+                clientID = 'CLI-' + (clientDatabase.clientData.length + 1);
             }
 
             var newClientAdded = new ClientDetails(clientID, clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone);
 
-            data.clientData.push(newClientAdded);
+            clientDatabase.clientData.push(newClientAdded);
 
             return newClientAdded;
         },
 
         updateDataClientList: function() {
-            data.clientList = [];
-            data.clientData.map(function(cur){
-                data.clientList.push(cur.clientName);
+            var unsorted = [];
+            clientDatabase.clientList = [];
+            clientDatabase.clientData.map(function(cur){
+                unsorted.push(cur.clientName);
+            })
+            var sorted = unsorted.sort();
+            sorted.map(function(cur){
+                clientDatabase.clientList.push(cur);
             })
         },
 
         deleteClient: function(itemID) {
             var clientIDs, index;
-            clientIDs = data.clientData.map(function(current){
+            clientIDs = clientDatabase.clientData.map(function(current){
                 return current.clientID;
             });
 
             index = clientIDs.indexOf(itemID);
 
             if (index !== -1) {
-                data.clientData.splice(index, 1);
+                clientDatabase.clientData.splice(index, 1);
             }
             
         },
 
         testing: function() {
-            console.log(data);
+            console.log(clientDatabase);
         },
         getData: function() {
-            return data;
+            return clientDatabase;
         },
     }
 
@@ -97,6 +102,22 @@ var clientController = (function() {
 var jobController = (function(){
 
 });
+
+// 3. Employee Controller
+var empController = (function(){
+    employeeData = {
+        employees: [],
+        /*
+        Emplyee Data
+        1. Name
+        2. Date of Birth
+        3. Department
+        4. Roll (Admin, Servicing, Artists, Graphic Designer)
+        */
+    }
+});
+
+
 
 // 2. UI Controller
 var UIController = (function(clientCtrl) {
@@ -156,24 +177,67 @@ var UIController = (function(clientCtrl) {
 
     
     var showDashboard = function() {
+        hideJobs();
+        hideClients();
+        hideWorkGroups();
+        hideEmployees();
         document.querySelector('.dashboard-container').style.display = 'block';
-        document.querySelector('.job-container').style.display = 'none';
-        document.querySelector('.clients-container').style.display = 'none';
         document.querySelector('.bar-title').textContent = 'DASHBOARD';
     };
 
     var showJobs = function() {
+        hideDashboard();
+        hideClients();
+        hideWorkGroups();
+        hideEmployees();
         document.querySelector('.job-container').style.display = 'block';
-        document.querySelector('.dashboard-container').style.display = 'none';
-        document.querySelector('.clients-container').style.display = 'none';
         document.querySelector('.bar-title').textContent = 'JOBS';
     };
 
     var showClients = function() {
+        hideDashboard();
+        hideJobs();
+        hideWorkGroups();
+        hideEmployees();
         document.querySelector('.clients-container').style.display = 'block'
-        document.querySelector('.job-container').style.display = 'none';
-        document.querySelector('.dashboard-container').style.display = 'none';
         document.querySelector('.bar-title').textContent = 'CLIENTS';
+    };
+
+    var showWorkGroups = function() {
+        hideDashboard();
+        hideJobs();
+        hideClients();
+        hideEmployees();
+        document.querySelector('.workgroup-container').style.display = 'block'
+        document.querySelector('.bar-title').textContent = 'WORK GROUPS';
+    }
+
+    var showEmployees = function() {
+        hideDashboard();
+        hideJobs();
+        hideClients();
+        hideWorkGroups();
+        document.querySelector('.bar-title').textContent = 'EMPLOYEES';
+    };
+    
+    var hideDashboard = function() {
+        document.querySelector('.dashboard-container').style.display = 'none';
+    };
+
+    var hideJobs = function() {
+        document.querySelector('.job-container').style.display = 'none';
+    };
+
+    var hideClients = function() {
+        document.querySelector('.clients-container').style.display = 'none';
+    };
+
+    var hideWorkGroups = function() {
+        document.querySelector('.workgroup-container').style.display = 'none';
+    };
+
+    var hideEmployees = function() {
+
     };
 
     var activateBtn = function() {
@@ -274,32 +338,20 @@ var UIController = (function(clientCtrl) {
                     slNo ++;
 
             }
-
-            // storedClientData.forEach(obj, function(){
-            //     html = `<div class="new-clients" id="CLI-0">
-            //             <div class="client-number client-ele-div"><p>${slNo}</p></div>
-            //            <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
-            //            <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
-            //            <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
-            //            <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
-            //            <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
-            //            <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
-            //        </div>`;
-            // })
         },
 
         updateClientDropdown: function() {
             var clientsHTML;
 
-            var updateClientDropdownList = document.getElementById('addedClientList');
-            for (var i = 0; i < updateClientDropdownList.length; i++) {
-                updateClientDropdownList[i].remove();
+            var clientDropdownList = document.getElementById('addedClientList').querySelectorAll('.clientListItem');
+            for (var i = 0; i < clientDropdownList.length; i++) {
+                clientDropdownList[i].remove();
             }
 
-            clientCtrl.getData().clientData.map(function(cur) {
+            clientCtrl.getData().clientList.map(function(cur) {
                 clientsHTML =   `<select name="Client Name" id="addedClientList">
-                                <option value="${cur.clientName}">${cur.clientName}</option>
-                            </select>`
+                                    <option value="${cur}" class="clientListItem">${cur}</option>
+                                </select>`
                 
             document.getElementById('addedClientList').insertAdjacentHTML('beforeend', clientsHTML);
             })
@@ -313,6 +365,8 @@ var UIController = (function(clientCtrl) {
         showClientForm,
         hideClientForm,
         clearClientForm,
+        showWorkGroups,
+        showEmployees,
 
         getDOMstrings: function() {
             return DOMstrings;
@@ -330,7 +384,7 @@ var UIController = (function(clientCtrl) {
 })(clientController);
 
 // 3. Central Controller
-var controller = (function(clientCtrl, UICtrl) {
+var controller = (function(clientCtrl, UICtrl, empCtrl) {
 
     var setupEventlisteners = function() {
         // Hide Side Menu Bar
@@ -350,6 +404,12 @@ var controller = (function(clientCtrl, UICtrl) {
 
         // Hide New Client Form
         document.querySelector('.client-form-cancel').addEventListener('click', UICtrl.hideClientForm);
+
+        // Show Work Groups
+        document.querySelector('.workgroup-btn').addEventListener('click', UICtrl.showWorkGroups);
+
+        // Show Employee Panel
+        document.querySelector('.employees-btn').addEventListener('click', UICtrl.showEmployees);
 
         // Add New Client
         document.querySelector('.client-form-submit').addEventListener('click', ctrlAddClient);
@@ -388,9 +448,7 @@ var controller = (function(clientCtrl, UICtrl) {
         for (var i = 0; i < clientDeleteBtns.length; i++) {
             clientDeleteBtns[i].onclick = function() {
                 clickedID = this.id;
-                console.log(clickedID);
                 splitID = clickedID.split('_');
-                console.log(splitID);
                 itemID = splitID[1];
                 clientCtrl.deleteClient(itemID);
                 UICtrl.updateClientList(); 
@@ -414,6 +472,6 @@ var controller = (function(clientCtrl, UICtrl) {
         }
         
     }
-})(clientController, UIController);
+})(clientController, UIController, empController);
 
 controller.init();

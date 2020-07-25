@@ -23,8 +23,8 @@
         <li class="left-menu-btn left-menu-active dashboard-btn"><i class="left-menu-icon"><ion-icon name="speedometer-outline"></ion-icon></i></ion-icon><span class="left-menu-title">Dashboard</span></li>
         <li class="left-menu-btn jobs-btn"><i class="left-menu-icon"><ion-icon name="list-outline"></ion-icon></i></ion-icon></i><span class="left-menu-title">Jobs</span></li>
         <li class="left-menu-btn clients-btn"><i class="left-menu-icon"><ion-icon name="person-outline"></ion-icon></i><span class="left-menu-title">Clients</span></li>
-        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="people-circle-outline"></ion-icon></i><span class="left-menu-title">Work Groups</span></li>
-        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="person-circle-outline"></ion-icon></i><span class="left-menu-title">Employees</span></li>
+        <li class="left-menu-btn workgroup-btn"><i class="left-menu-icon"><ion-icon name="people-circle-outline"></ion-icon></i><span class="left-menu-title">Work Groups</span></li>
+        <li class="left-menu-btn employees-btn"><i class="left-menu-icon"><ion-icon name="person-circle-outline"></ion-icon></i><span class="left-menu-title">Employees</span></li>
         <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="archive-outline"></ion-icon></i><span class="left-menu-title">Archives</span></li>
         <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="book-outline"></ion-icon></i><span class="left-menu-title">Library</span></li>
       </ul>
@@ -77,11 +77,15 @@
             <form action="" class="add-new-job" autocomplete="off">
               <!-- <input type="text" name="CLIENT" id="job-client" placeholder="CLIENT"> -->
               <select name="Client Name" id="addedClientList">
-                <!-- <option value="">Ajish</option> -->
+                <option value="" class="clientListItem"></option>
               </select>
-              <input type="text" name="SERVICING" id="job-service" placeholder="SERVICING">
+              <select name="Servicing" id="addedServicing">
+                <option value="" class="serviceListItem"></option>
+              </select>
               <input type="text" name="JOB TITLE" id="job-title" placeholder="JOB TITLE">
-              <input type="text" name="JOB TYPE" id="job-type" placeholder="JOB TYPE">
+              <select name="Servicing" id="addedServicing">
+                <option value="" class="jobTypeListItem"></option>
+              </select>
               <input type="date" name="JOB DATE" id="job-date">
               <input type="button" value="ADD NEW JOB">
             </form>
@@ -180,6 +184,59 @@
             </div>
             
           </div>
+        </div>
+
+        <div class="workgroup-container">
+
+        </div>
+
+        <div class="employee-container">
+          <div class="new-emp-bar">
+            <form action="" class="add-new-job" autocomplete="off">
+              <input type="text" name="Employee Name" id="empName" placeholder="Name">
+              <input type="date" name="Employee DoB" id="empDOB">
+              <select name="Employee Department" id="empDept">
+                <option value="Department1">Department1</option>
+                <option value="Department2">Department2</option>
+                <option value="Department3">Department3</option>
+              </select>
+              <select name="roll" id="empRoll">
+                <option value="Admin">Admin</option>
+                <option value="Artist">Artist</option>
+                <option value="Graphic Designer">Graphic Designer</option>
+                <option value="Servicing">Servicing</option>
+              </select>
+            </form>
+          </div>
+
+          <div class="job-list">
+            <div class="jobs">
+              <div class="jobs-number"><p>No.</p></div>
+              <div class="jobs-client"><p>Client</p></div>
+              <div class="jobs-branch"><p>Branch</p></div>
+              <div class="jobs-servicing"><p>Servicing</p></div>
+              <div class="jobs-title"><p>Job Title</p></div>
+              <div class="jobs-type"><p>Job Type</p></div>
+              <div class="jobs-added"><p>Added Date</p></div>
+              <div class="jobs-status"><p>Job Status</p></div>
+              <div class="jobs-submit"><p>Submit Date</p></div>
+            </div>
+            <div class="new-jobs" id="JOB-1">
+              <div class="jobs-number"><p>No.</p></div>
+              <div class="jobs-client"><p>Client</p></div>
+              <div class="jobs-branch"><p>Branch</p></div>
+              <div class="jobs-servicing"><p>Servicing</p></div>
+              <div class="jobs-title"><p>Job Title</p></div>
+              <div class="jobs-type"><p>Job Type</p></div>
+              <div class="jobs-added"><p>Added Date</p></div>
+              <div class="jobs-status"><p>Job Status</p></div>
+              <div class="jobs-submit"><p>Submit Date</p></div>
+              <div class="jobs-edit"><p><ion-icon name="create-outline"></ion-icon></p></div>
+              <div class="jobs-delete"><p><ion-icon name="trash-outline"></ion-icon></p></div>
+            </div>
+
+          </div>
+
         </div>
       
 
