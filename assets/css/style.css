@@ -181,10 +181,11 @@ body {
 /* /////////////////////////////// DASHBOARD CONTAINER /////////////////////////////// */
 
 .dashboard-container {
-    display: none;
+    display: block;
     width: 100%;
     margin: 20px auto;
     height: calc(100vh - 110px);
+    opacity: 1;
 }
 
 .cards-space {
@@ -272,6 +273,8 @@ body {
     width: 100%;
     margin: 20px auto;
     height: calc(100vh - 110px);
+    opacity: 1;
+    display: block;
 }
 
 .new-job-bar {
@@ -400,6 +403,8 @@ body {
     width: 100%;
     margin: 20px auto;
     height: calc(100vh - 110px);
+    opacity: 1;
+    display: block;
 }
 
 .add-client-btn {
@@ -604,15 +609,17 @@ body {
     width: 100%;
     margin: 20px auto;
     height: calc(100vh - 110px);
-    display: none;
+    display: block;
 }
 
 /* /////////////////////////////// EMPLOYEE CONTAINER /////////////////////////////// */
 
-.employee-container {
+.employees-container {
     width: 100%;
     margin: 20px auto;
     height: calc(100vh - 110px);
+    opacity: 1;
+    display: block;
 }
 
 .new-emp-bar {

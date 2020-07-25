@@ -11,7 +11,7 @@ var clientController = (function() {
         this.clientPhone = clientPhone;
     };
 
-    var data = {
+    var clientDatabase = {
         clientData: [
             {
                 clientID: 'CLI-1',
@@ -48,45 +48,56 @@ var clientController = (function() {
     return {
         addNewClient: function(clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone) {
             var clientID;
-            if (data.clientData.length == 0) {
+            if (clientDatabase.clientData.length == 0) {
                 clientID = 'CLI-' + 1;
-            } else if (data.clientData.length > 0) {
-                clientID = 'CLI-' + (data.clientData.length + 1);
+            } else if (clientDatabase.clientData.length > 0) {
+                clientID = 'CLI-' + (clientDatabase.clientData.length + 1);
             }
 
             var newClientAdded = new ClientDetails(clientID, clientName, clientAddress, clientCity, clientRep, clientEmail, clientPhone);
 
-            data.clientData.push(newClientAdded);
+            clientDatabase.clientData.push(newClientAdded);
 
             return newClientAdded;
         },
 
         updateDataClientList: function() {
-            data.clientList = [];
-            data.clientData.map(function(cur){
-                data.clientList.push(cur.clientName);
-            })
+            clientDatabase.clientList.map(function(cur){
+                length = clientDatabase.clientList.length;
+                for (var i = 0; i < length; i++) {
+                    clientDatabase.clientList[i].remove();
+                }
+            });
+
+            clientDatabase.clientData.map(function(){
+                var unsorted = [];
+                length = clientDatabase.clientData.length;
+                for (var i = 0; i < length; i++) {
+                    
+                }
+            });
+
         },
 
         deleteClient: function(itemID) {
             var clientIDs, index;
-            clientIDs = data.clientData.map(function(current){
+            clientIDs = clientDatabase.clientData.map(function(current){
                 return current.clientID;
             });
 
             index = clientIDs.indexOf(itemID);
 
             if (index !== -1) {
-                data.clientData.splice(index, 1);
+                clientDatabase.clientData.splice(index, 1);
             }
             
         },
 
         testing: function() {
-            console.log(data);
+            console.log(clientDatabase);
         },
         getData: function() {
-            return data;
+            return clientDatabase;
         },
     }
 
@@ -156,20 +167,28 @@ var UIController = (function(clientCtrl) {
 
     
     var showDashboard = function() {
+        hideJobs();
+        hideClients();
+        hideWorkGroups();
+        hideEmployees();
         document.querySelector('.dashboard-container').style.display = 'block';
-        document.querySelector('.job-container').style.display = 'none';
-        document.querySelector('.clients-container').style.display = 'none';
         document.querySelector('.bar-title').textContent = 'DASHBOARD';
     };
 
     var showJobs = function() {
+        hideDashboard();
+        hideClients();
+        hideWorkGroups();
+        hideEmployees();
         document.querySelector('.job-container').style.display = 'block';
-        document.querySelector('.dashboard-container').style.display = 'none';
-        document.querySelector('.clients-container').style.display = 'none';
         document.querySelector('.bar-title').textContent = 'JOBS';
     };
 
     var showClients = function() {
+        hideDashboard();
+        hideJobs();
+        hideWorkGroups();
+        hideEmployees();
         document.querySelector('.clients-container').style.display = 'block'
         document.querySelector('.bar-title').textContent = 'CLIENTS';
     };
@@ -188,6 +207,7 @@ var UIController = (function(clientCtrl) {
         hideJobs();
         hideClients();
         hideWorkGroups();
+        document.querySelector('.employees-container').style.display = 'block'
         document.querySelector('.bar-title').textContent = 'EMPLOYEES';
     };
     
@@ -197,22 +217,18 @@ var UIController = (function(clientCtrl) {
 
     var hideJobs = function() {
         document.querySelector('.job-container').style.display = 'none';
-        document.querySelector('.dashboard-container').style.display = 'none';
-        document.querySelector('.bar-title').textContent = 'CLIENTS';
     };
 
-    var activateBtn = function() {
-        var leftMenuList = document.querySelectorAll('#left-btn-list');
-            for (var i = 0; i < leftMenuList.length; i++) {
-            leftMenuList[i].addEventListener('click', activateClass);
-        };
+    var hideClients = function() {
+        document.querySelector('.clients-container').style.display = 'none';
+    };
 
-    function activateClass(e) {
-        for (var i = 0; i < leftMenuList.length; i++) {
-            leftMenuList[i].classList.remove('.left-menu-active');
-        }
-        e.target.classList.add('.left-menu-active');
-        }
+    var hideWorkGroups = function() {
+        document.querySelector('.workgroup-container').style.display = 'none';
+    };
+
+    var hideEmployees = function(){
+        document.querySelector('.employees-container').style.display = 'none';
     };
 
     var clientFormState;
@@ -334,10 +350,11 @@ var UIController = (function(clientCtrl) {
         showJobs,
         showClients,
         hideSideMenu,
-        activateBtn,
         showClientForm,
         hideClientForm,
         clearClientForm,
+        showWorkGroups,
+        showEmployees,
 
         getDOMstrings: function() {
             return DOMstrings;
@@ -378,6 +395,12 @@ var controller = (function(clientCtrl, UICtrl) {
 
         // Add New Client
         document.querySelector('.client-form-submit').addEventListener('click', ctrlAddClient);
+
+        // Show Work Group
+        document.querySelector('.workgroup-btn').addEventListener('click', UICtrl.showWorkGroups);
+
+        // Show Employees
+        document.querySelector('.employees-btn').addEventListener('click', UICtrl.showEmployees);
 
         // Delete existing client
         document.querySelector('.client-list-container').addEventListener('click', ctrlDeleteClient);
@@ -429,7 +452,6 @@ var controller = (function(clientCtrl, UICtrl) {
     return {
         init: function() {
             UICtrl.showClients();
-            UICtrl.activateBtn();
             console.log('App initialised!');
             UICtrl.updateClientList();
             setupEventlisteners();

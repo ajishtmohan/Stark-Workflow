@@ -23,8 +23,8 @@
         <li class="left-menu-btn left-menu-active dashboard-btn"><i class="left-menu-icon"><ion-icon name="speedometer-outline"></ion-icon></i></ion-icon><span class="left-menu-title">Dashboard</span></li>
         <li class="left-menu-btn jobs-btn"><i class="left-menu-icon"><ion-icon name="list-outline"></ion-icon></i></ion-icon></i><span class="left-menu-title">Jobs</span></li>
         <li class="left-menu-btn clients-btn"><i class="left-menu-icon"><ion-icon name="person-outline"></ion-icon></i><span class="left-menu-title">Clients</span></li>
-        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="people-circle-outline"></ion-icon></i><span class="left-menu-title">Work Groups</span></li>
-        <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="person-circle-outline"></ion-icon></i><span class="left-menu-title">Employees</span></li>
+        <li class="left-menu-btn workgroup-btn"><i class="left-menu-icon"><ion-icon name="people-circle-outline"></ion-icon></i><span class="left-menu-title">Work Groups</span></li>
+        <li class="left-menu-btn employees-btn"><i class="left-menu-icon"><ion-icon name="person-circle-outline"></ion-icon></i><span class="left-menu-title">Employees</span></li>
         <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="archive-outline"></ion-icon></i><span class="left-menu-title">Archives</span></li>
         <li class="left-menu-btn"><i class="left-menu-icon"><ion-icon name="book-outline"></ion-icon></i><span class="left-menu-title">Library</span></li>
       </ul>
@@ -75,8 +75,7 @@
         <div class="job-container">
           <div class="new-job-bar">
             <form action="" class="add-new-job" autocomplete="off">
-              <!-- <input type="text" name="CLIENT" id="job-client" placeholder="CLIENT"> -->
-              <select name="Client Name" id="addedClientList">
+              <select name="Client Name" id="addedClientList" placeholder="C">
                 <!-- <option value="">Ajish</option> -->
               </select>
               <input type="text" name="SERVICING" id="job-service" placeholder="SERVICING">
@@ -112,9 +111,7 @@
               <div class="jobs-edit"><p><ion-icon name="create-outline"></ion-icon></p></div>
               <div class="jobs-delete"><p><ion-icon name="trash-outline"></ion-icon></p></div>
             </div>
-
           </div>
-
         </div>
 
         <div class="clients-container">
@@ -178,8 +175,15 @@
               <input class="client-form-cancel" type="button" value="CANCEL">
               <input class="client-form-submit" type="button" value="ADD NEW CLIENT">
             </div>
-            
           </div>
+        </div>
+
+        <div class="workgroup-container">
+
+        </div>
+
+        <div class="employees-container">
+
         </div>
       
 
