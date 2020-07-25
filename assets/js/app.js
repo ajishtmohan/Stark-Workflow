@@ -171,6 +171,31 @@ var UIController = (function(clientCtrl) {
 
     var showClients = function() {
         document.querySelector('.clients-container').style.display = 'block'
+        document.querySelector('.bar-title').textContent = 'CLIENTS';
+    };
+
+    var showWorkGroups = function() {
+        hideDashboard();
+        hideJobs();
+        hideClients();
+        hideEmployees();
+        document.querySelector('.workgroup-container').style.display = 'block'
+        document.querySelector('.bar-title').textContent = 'WORK GROUPS';
+    }
+
+    var showEmployees = function() {
+        hideDashboard();
+        hideJobs();
+        hideClients();
+        hideWorkGroups();
+        document.querySelector('.bar-title').textContent = 'EMPLOYEES';
+    };
+    
+    var hideDashboard = function() {
+        document.querySelector('.dashboard-container').style.display = 'none';
+    };
+
+    var hideJobs = function() {
         document.querySelector('.job-container').style.display = 'none';
         document.querySelector('.dashboard-container').style.display = 'none';
         document.querySelector('.bar-title').textContent = 'CLIENTS';
