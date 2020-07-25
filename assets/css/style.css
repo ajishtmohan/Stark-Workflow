@@ -300,6 +300,16 @@ body {
     text-transform: uppercase;
 }
 
+.new-job-bar select{
+    height: 30px;
+    width: 180px;
+    margin-right: 10px;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    color: gray;
+    text-transform: uppercase;
+}
+
 .new-job-bar input[type="button"]{
     height: 30px;
     margin-right: 10px;

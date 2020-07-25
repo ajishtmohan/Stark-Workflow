@@ -41,6 +41,8 @@ var clientController = (function() {
                 clientPhone: '+91-44-25333850'
             },
         ],
+
+        clientList: [],
     };
     
     return {
@@ -57,6 +59,13 @@ var clientController = (function() {
             data.clientData.push(newClientAdded);
 
             return newClientAdded;
+        },
+
+        updateDataClientList: function() {
+            data.clientList = [];
+            data.clientData.map(function(cur){
+                data.clientList.push(cur.clientName);
+            })
         },
 
         deleteClient: function(itemID) {
@@ -279,6 +288,23 @@ var UIController = (function(clientCtrl) {
             // })
         },
 
+        updateClientDropdown: function() {
+            var clientsHTML;
+
+            var updateClientDropdownList = document.getElementById('addedClientList');
+            for (var i = 0; i < updateClientDropdownList.length; i++) {
+                updateClientDropdownList[i].remove();
+            }
+
+            clientCtrl.getData().clientData.map(function(cur) {
+                clientsHTML =   `<select name="Client Name" id="addedClientList">
+                                <option value="${cur.clientName}">${cur.clientName}</option>
+                            </select>`
+                
+            document.getElementById('addedClientList').insertAdjacentHTML('beforeend', clientsHTML);
+            })
+        },
+
         showDashboard,
         showJobs,
         showClients,
@@ -350,6 +376,8 @@ var controller = (function(clientCtrl, UICtrl) {
 
         // 3. Update the Client UI
         UICtrl.updateClientList();
+        clientCtrl.updateDataClientList();
+        UIController.updateClientDropdown();
 
     };
 
@@ -366,6 +394,8 @@ var controller = (function(clientCtrl, UICtrl) {
                 itemID = splitID[1];
                 clientCtrl.deleteClient(itemID);
                 UICtrl.updateClientList(); 
+                clientCtrl.updateDataClientList();
+                UIController.updateClientDropdown();
             }   
         }
     };
@@ -378,7 +408,9 @@ var controller = (function(clientCtrl, UICtrl) {
             console.log('App initialised!');
             UICtrl.updateClientList();
             setupEventlisteners();
-            ctrlDeleteClient();  
+            ctrlDeleteClient();
+            clientCtrl.updateDataClientList();
+            UIController.updateClientDropdown();
         }
         
     }
