@@ -558,6 +558,11 @@ var controller = (function(clientCtrl, UICtrl) {
         UICtrl.clearEmpForm();
     };
 
+    var ctrlDeleteEmp = function() {
+
+        // 1
+    };
+
 
     return {
         init: function() {
