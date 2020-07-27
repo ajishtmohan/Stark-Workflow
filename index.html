@@ -75,8 +75,8 @@
         <div class="job-container">
           <div class="new-job-bar">
             <form action="" class="add-new-job" autocomplete="off">
-              <select name="Client Name" id="addedClientList" placeholder="C">
-                <!-- <option value="Ajish" class="clientDropdownItem">Ajish</option> -->
+              <select name="Client Name" id="addedClientList">
+                <option value="${cur}" class="addedClientListItem">${cur}</option>
               </select>
               <input type="text" name="SERVICING" id="job-service" placeholder="SERVICING">
               <input type="text" name="JOB TITLE" id="job-title" placeholder="JOB TITLE">
@@ -183,8 +183,54 @@
         </div>
 
         <div class="employees-container">
+          <div class="job-container">
+            <div class="new-emp-bar">
+              <form action="" class="add-new-job" autocomplete="off">
+                <input type="text" placeholder="Name" id="emp-name">
+                <input type="date" id="emp-DOB">
+                <select name="Branch" id="emp-branch">
+                  <option value="Trivandrum">Trivandrum</option>
+                  <option value="Cochin">Cochin</option>
+                  <option value="Bangalore">Bangalore</option>
+                  <option value="Hyderabad">Hyderabad</option>
+                  <option value="Delhi">Delhi</option>
+                </select>
+                <select name="employee roll" id="emp-roll">
+                  <option value="Admin">Admin</option>
+                  <option value="Servicing">Servicing</option>
+                  <option value="Artist">Artist</option>
+                  <option value="Copy Writer">Copy Writer</option>
+                  <option value="Graphic Designer">Graphic Designer</option>
+                </select>
+                <input type="button" value="ADD NEW EMPLOYEE" class="add-new-emp">
+              </form>
+            </div>
 
-        </div>
+            <div class="emp-list">
+              <div class="emp">
+                <div class="emp-number"><p>No.</p></div>
+                <div class="emp-name"><p>Name</p></div>
+                <div class="emp-DOB"><p>D.O.B.</p></div>
+                <div class="emp-branch"><p>Branch</p></div>
+                <div class="emp-roll"><p>Roll</p></div>
+              </div>
+              
+              <div class="emp-list-container">
+                <!-- <div class="new-emp" id="EMP-1">
+                  <div class="jobs-number emp-ele-div"><p>No.</p></div>
+                  <div class="emp-name emp-ele-div"><p>Name</p></div>
+                  <div class="emp-DOB emp-ele-div"><p>D.O.B.</p></div>
+                  <div class="emp-branch emp-ele-div"><p>Branch</p></div>
+                  <div class="emp-roll emp-ele-div"><p>Employee Roll</p></div>
+                  <div class="emp-edit emp-ele-div"><p><ion-icon name="create-outline"></ion-icon></p></div>
+                  <div class="emp-delete emp-ele-div"><p><ion-icon name="trash-outline"></ion-icon></p></div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+
+          </div>
+
       
 
     </div>

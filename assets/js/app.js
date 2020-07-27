@@ -76,23 +76,12 @@ var clientController = (function() {
         },
 
         updateDataClientList: function() {
-            clientDatabase.clientList.forEach(function(cur){
-                length = clientDatabase.clientList.length;
-                for (var i = 0; i < length; i++) {
-                    clientDatabase.clientList[i].remove();
-                }
-            });
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
-            clientDatabase.clientData.map(function(){
-                var unsorted = [];
-                var sorted;
-                length = clientDatabase.clientData.length;
-                for (var i = 0; i < length; i++) {
-                    clientDatabase.clientList.push(clientDatabase.clientData[i].clientName);
-                };
-            });
+            clientDatabase.clientList.splice(0, clientDatabase.clientList.length);
+
+            for (var i = 0; i < clientDatabase.clientData.length; i++) {
+                clientDatabase.clientList.push(clientDatabase.clientData[i].clientName);
+            }
         },
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         testing: function() {
             console.log(clientDatabase);
@@ -122,6 +111,13 @@ var UIController = (function(clientCtrl) {
 
         // Client List
         clientContainer: '.client-list-container',
+
+        // Employee List
+        inputEmpName: '#emp-name',
+        inputEmpDOB: '#emp-DOB',
+        inputEmpBranch: '#emp-branch',
+        inputEmpRoll: '#emp-roll',
+        empContainer: '.emp-list-container',
     }
 
     var hideSideMenu = function() {
@@ -258,6 +254,18 @@ var UIController = (function(clientCtrl) {
         }, 300);
         
     };
+
+    var clearEmpForm = function() {
+        var fields, fieldsArr;
+
+        fields = document.querySelectorAll(DOMstrings.inputEmpName + ', ' + DOMstrings.inputEmpDOB + ', ' + DOMstrings.inputEmpBranch + ', ' + DOMstrings.inputEmpRoll + ', ' + DOMstrings.empContainer);
+
+        fieldsArr = Array.prototype.slice.call(fields);
+        fieldsArr.forEach(function(current, index, array) {
+            current.value = '';
+        });
+        fieldsArr[0].focus();
+    };
     
 
     return {
@@ -272,19 +280,18 @@ var UIController = (function(clientCtrl) {
             }
         },
 
-
         updateClientList: function() {
-            var storedClientData, totalClients, element, slNo;
+            var storedClientData, allClients, element, slNo;
 
             // Get stored data
             storedClientData = clientCtrl.getData().clientData;
 
             // Select all clients from list
-            totalClients = document.querySelector('.client-list-container').querySelectorAll('.new-clients');
+            allClients = document.querySelector('.client-list-container').querySelectorAll('.new-clients');
 
             // Remove all clients from Client List
-            for (var i = 0; i < totalClients.length; i++) {
-                totalClients[i].remove();
+            for (var i = 0; i < allClients.length; i++) {
+                allClients[i].remove();
             }
 
             element = DOMstrings.clientContainer;
@@ -312,39 +319,63 @@ var UIController = (function(clientCtrl) {
                     document.querySelector(element).insertAdjacentHTML('beforeend', html);
 
                     slNo ++;
-
             }
-
-            // storedClientData.forEach(obj, function(){
-            //     html =   `<div class="new-clients" id="CLI-0">
-                //            <div class="client-number client-ele-div"><p>${slNo}</p></div>
-                //            <div class="client-name client-ele-div"><p>${obj.clientName}</p></div>
-                //            <div class="client-address client-ele-div"><p>${obj.clientAddress}</p></div>
-                //            <div class="client-city client-ele-div"><p>${obj.clientCity}</p></div>
-                //            <div class="client-person-incharge client-ele-div"><p>${obj.clientRep}</p></div>
-                //            <div class="client-email client-ele-div"><p>${obj.clientEmail}</p></div>
-                //            <div class="client-phone client-ele-div"><p>${obj.clientPhone}</p></div>
-            //              </div>`;
-            // })
         },
 
         updateClientDropdown: function() {
-            var clientsHTML;
-            var clientDropdownList = [];
+            var clientsListHTML;
+            var sorted = [];
 
-            clientDropdownList = document.getElementById('addedClientList').querySelectorAll('.clientDropdownItem');
-            console.log(clientDropdownList);
-            for (var i = 0; i < clientDropdownList.length; i++) {
-                clientDropdownList[i].remove();
+            document.getElementById('addedClientList').innerHTML = '';
+
+            sorted = clientCtrl.getData().clientList.sort();
+
+            for (var i = 0; i < sorted.length; i++) {
+                clientsListHTML =   `<select name="Client Name" id="addedClientList">
+                                        <option value="${sorted[i]}" class="addedClientListItem">${sorted[i]}</option>
+                                    </select>`;
+                document.getElementById('addedClientList').insertAdjacentHTML('beforeend', clientsListHTML);
             };
+        },
 
-            clientCtrl.getData().clientData.map(function(cur) {
-                clientsHTML =   `<select name="Client Name" id="addedClientList">
-                                    <option value="${cur.clientName}">${cur.clientName}</option>
-                                </select>`;
-                
-            document.getElementById('addedClientList').insertAdjacentHTML('beforeend', clientsHTML);
-            })
+        updateEmpList: function() {
+            var storedEmpData, allEmployees;
+
+            // Get stored data
+            storedEmpData = empController.getData().employeeData;
+
+            // Select all employees from list
+            allEmployees = document.querySelector('.emp-list-container').querySelectorAll('.new-emp');
+
+            // Remove all employees from Client List
+            for (var i = 0; i < allEmployees.length; i++) {
+                allEmployees[i].remove();
+            }
+
+            element = DOMstrings.empContainer;
+
+            for (var i = 0; i < storedEmpData.length; i++) {
+
+                if (storedEmpData.length == 0) {
+                    slNo = 1;
+                } else if (storedEmpData.length > 0){
+                    slNo = storedEmpData.length;
+                }
+
+                empHtml =   `<div class="new-emp" id="EMP-1">
+                            <div class="jobs-number emp-ele-div"><p>${i + 1}</p></div>
+                            <div class="emp-name emp-ele-div"><p>${storedEmpData[i].empName}</p></div>
+                            <div class="emp-DOB emp-ele-div"><p>${storedEmpData[i].empDOB}</p></div>
+                            <div class="emp-branch emp-ele-div"><p>${storedEmpData[i].empBranch}</p></div>
+                            <div class="emp-roll emp-ele-div"><p>${storedEmpData[i].empRoll}</p></div>
+                            <div class="emp-edit emp-ele-div"><p><ion-icon name="create-outline"></ion-icon></p></div>
+                            <div class="emp-delete emp-ele-div"><p><ion-icon name="trash-outline"></ion-icon></p></div>
+                            </div>`;
+
+                    document.querySelector(element).insertAdjacentHTML('beforeend', empHtml);
+
+                    slNo ++;
+            }
         },
 
         showDashboard,
@@ -356,6 +387,7 @@ var UIController = (function(clientCtrl) {
         clearClientForm,
         showWorkGroups,
         showEmployees,
+        clearEmpForm,
 
         getDOMstrings: function() {
             return DOMstrings;
@@ -367,10 +399,70 @@ var UIController = (function(clientCtrl) {
 
         getClientFormState: function() {
             return clientFormState;
-        }
+        },
+
+        /////////////////////////////////////// EMPLOYEE ///////////////////////////////////////
+
+        getEmpData: function() {
+            return {
+                empName: document.querySelector(DOMstrings.inputEmpName).value,
+                empDOB: document.querySelector(DOMstrings.inputEmpDOB).value,
+                empBranch: document.querySelector(DOMstrings.inputEmpBranch).value,
+                empRoll: document.querySelector(DOMstrings.inputEmpRoll).value,
+            }
+        },
+
+        /////////////////////////////////////// EMPLOYEE ///////////////////////////////////////
     }
     
 })(clientController);
+
+var workgroupController = (function(){
+
+});
+
+var empController = (function(){
+    
+    var EmployeeDetails = function(empID, empName, empDOB, empBranch, empRoll){
+        this.empID = empID;
+        this.empName = empName;
+        this.empDOB = empDOB;
+        this.empBranch = empBranch;
+        this.empRoll = empRoll;
+    };
+
+    var empDatabase = {
+        employeeData: [],
+        employeeList: [],
+    };
+
+    return {
+
+        addNewEmp: function(empName, empDOB, empBranch, empRoll) {
+            var empID;
+            if (empDatabase.employeeData.length == 0) {
+                empID = 'EMP-' + 1;
+            } else if (empDatabase.employeeData.length > 0) {
+                empID = 'EMP-' + (empDatabase.employeeData.length + 1);
+            }
+
+            var newEmpAdded = new EmployeeDetails(empID, empName, empDOB, empBranch, empRoll);
+
+            empDatabase.employeeData.push(newEmpAdded);
+
+            return newEmpAdded;
+        },
+
+        testing: function() {
+            console.log(empDatabase);
+        },
+        getData: function() {
+            return empDatabase;
+        },
+    
+    }
+
+})(controller);
 
 // 3. Central Controller
 var controller = (function(clientCtrl, UICtrl) {
@@ -400,11 +492,14 @@ var controller = (function(clientCtrl, UICtrl) {
         // Show Work Group
         document.querySelector('.workgroup-btn').addEventListener('click', UICtrl.showWorkGroups);
 
+        // Delete existing client
+        document.querySelector('.client-list-container').addEventListener('click', ctrlDeleteClient);
+
         // Show Employees
         document.querySelector('.employees-btn').addEventListener('click', UICtrl.showEmployees);
 
-        // Delete existing client
-        document.querySelector('.client-list-container').addEventListener('click', ctrlDeleteClient);
+        // Add New Employee
+        document.querySelector('.add-new-emp').addEventListener('click', ctrlAddEmp);
         
     }
 
@@ -424,8 +519,8 @@ var controller = (function(clientCtrl, UICtrl) {
         UICtrl.hideClientForm();
 
         // 3. Update the Client UI
-        UICtrl.updateClientList();
         clientCtrl.updateDataClientList();
+        UICtrl.updateClientList();
         UIController.updateClientDropdown();
 
     };
@@ -449,14 +544,27 @@ var controller = (function(clientCtrl, UICtrl) {
         }
     };
 
+    var ctrlAddEmp = function() {
+        var inputEM, newEmp;
+
+        // 1. Get input from UI
+        inputEM = UICtrl.getEmpData();
+
+        // 2. Add the emp data to empDatabase
+        newEmp = empController.addNewEmp(inputEM.empName, inputEM.empDOB, inputEM.empBranch, inputEM.empRoll);
+
+        // Update the Employee UI
+        UICtrl.updateEmpList();
+        UICtrl.clearEmpForm();
+    };
+
 
     return {
         init: function() {
-            UICtrl.showClients();
+            UICtrl.showEmployees();
             console.log('App initialised!');
             UICtrl.updateClientList();
             setupEventlisteners();
-            ctrlDeleteClient();
             clientCtrl.updateDataClientList();
             UIController.updateClientDropdown();
         }
