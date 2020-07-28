@@ -75,10 +75,8 @@
         <div class="job-container">
           <div class="new-job-bar">
             <form action="" class="add-new-job" autocomplete="off">
-              <select name="Client Name" id="addedClientList">
-                <option value="${cur}" class="addedClientListItem">${cur}</option>
-              </select>
-              <input type="text" name="SERVICING" id="job-service" placeholder="SERVICING">
+              <select name="Client Name" id="addedClientList"></select>
+              <select name="Servicing" id="addedServiceList"></select>
               <input type="text" name="JOB TITLE" id="job-title" placeholder="JOB TITLE">
               <input type="text" name="JOB TYPE" id="job-type" placeholder="JOB TYPE">
               <input type="date" name="JOB DATE" id="job-date">
@@ -195,8 +193,9 @@
                   <option value="Hyderabad">Hyderabad</option>
                   <option value="Delhi">Delhi</option>
                 </select>
-                <select name="employee roll" id="emp-roll">
+                <select name="employee role" id="emp-role">
                   <option value="Admin">Admin</option>
+                  <option value="Creative Director">Creative Director</option>
                   <option value="Servicing">Servicing</option>
                   <option value="Artist">Artist</option>
                   <option value="Copy Writer">Copy Writer</option>
@@ -212,7 +211,7 @@
                 <div class="emp-name"><p>Name</p></div>
                 <div class="emp-DOB"><p>D.O.B.</p></div>
                 <div class="emp-branch"><p>Branch</p></div>
-                <div class="emp-roll"><p>Roll</p></div>
+                <div class="emp-role"><p>Role</p></div>
               </div>
               
               <div class="emp-list-container">
@@ -221,7 +220,7 @@
                   <div class="emp-name emp-ele-div"><p>Name</p></div>
                   <div class="emp-DOB emp-ele-div"><p>D.O.B.</p></div>
                   <div class="emp-branch emp-ele-div"><p>Branch</p></div>
-                  <div class="emp-roll emp-ele-div"><p>Employee Roll</p></div>
+                  <div class="emp-role emp-ele-div"><p>Employee Role</p></div>
                   <div class="emp-edit emp-ele-div"><p><ion-icon name="create-outline"></ion-icon></p></div>
                   <div class="emp-delete emp-ele-div"><p><ion-icon name="trash-outline"></ion-icon></p></div>
                 </div> -->

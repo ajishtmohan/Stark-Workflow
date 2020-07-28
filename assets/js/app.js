@@ -97,8 +97,195 @@ var jobController = (function(){
 
 });
 
+
+
+var workgroupController = (function(){
+
+});
+
+var empController = (function(){
+    
+    var EmployeeDetails = function(empID, empName, empDOB, empBranch, empRole){
+        this.empID = empID;
+        this.empName = empName;
+        this.empDOB = empDOB;
+        this.empBranch = empBranch;
+        this.empRole = empRole;
+    };
+
+    var empDatabase = {
+        employeeData: [
+            {
+                empID: "EMP-1",
+                empName: "Prem",
+                empDOB: "2020-07-15",
+                empBranch: "Trivandrum",
+                empRole: "Admin"
+            },
+            {
+                empID: "EMP-2",
+                empName: "Thomas",
+                empDOB: "2020-07-02",
+                empBranch: "Trivandrum",
+                empRole: "Admin"
+            },
+            {
+                empID: "EMP-3",
+                empName: "Deepak",
+                empDOB: "2020-07-08",
+                empBranch: "Bangalore",
+                empRole: "Admin"
+            },
+            {
+                empID: "EMP-4",
+                empName: "Unni",
+                empDOB: "2020-07-16",
+                empBranch: "Trivandrum",
+                empRole: "Creative Director"
+            },
+            {
+                empID: "EMP-5",
+                empName: "Sandesh",
+                empDOB: "2020-07-15",
+                empBranch: "Bangalore",
+                empRole: "Servicing"
+            },
+            {
+                empID: "EMP-6",
+                empName: "Harisha",
+                empDOB: "2020-07-16",
+                empBranch: "Bangalore",
+                empRole: "Servicing"
+            },
+            {
+                empID: "EMP-7",
+                empName: "Shibin",
+                empDOB: "2020-07-23",
+                empBranch: "Trivandrum",
+                empRole: "Artist"
+            },
+            {
+                empID: "EMP-8",
+                empName: "Sujith",
+                empDOB: "2020-07-15",
+                empBranch: "Delhi",
+                empRole: "Artist"
+            },
+            {
+                empID: "EMP-9",
+                empName: "Ajith",
+                empDOB: "2020-07-23",
+                empBranch: "Trivandrum",
+                empRole: "Copy Writer"
+            },
+            {
+                empID: "EMP-11",
+                empName: "Sachith",
+                empDOB: "2020-07-15",
+                empBranch: "Trivandrum",
+                empRole: "Copy Writer"
+            },
+            {
+                empID: "EMP-11",
+                empName: "Ajish",
+                empDOB: "2020-07-22",
+                empBranch: "Bangalore",
+                empRole: "Graphic Designer"
+            },
+            {
+                empID: "EMP-12",
+                empName: "Kannan",
+                empDOB: "2020-07-29",
+                empBranch: "Trivandrum",
+                empRole: "Graphic Designer"
+            },         
+        ],
+
+        employeeList: [],
+        adminList: [],
+        serviceList: [],
+        artistList: [],
+        copyWriteList: [],
+        graphicDesList: [],
+
+    };
+
+    return {
+
+        addNewEmp: function(empName, empDOB, empBranch, empRole) {
+            var empID;
+            if (empDatabase.employeeData.length == 0) {
+                empID = 'EMP-' + 1;
+            } else if (empDatabase.employeeData.length > 0) {
+                empID = 'EMP-' + (empDatabase.employeeData.length + 1);
+            }
+
+            var newEmpAdded = new EmployeeDetails(empID, empName, empDOB, empBranch, empRole);
+
+            empDatabase.employeeData.push(newEmpAdded);
+
+            return newEmpAdded;
+        },
+
+        deleteEmp: function(itemID) {
+            var empIDs, index;
+            empIDs = empDatabase.employeeData.map(function(current){
+                return current.empID;
+            });
+
+            index = empIDs.indexOf(itemID);
+
+            if (index !== -1) {
+                empDatabase.employeeData.splice(index, 1);
+            }
+        },
+
+        updateDataServiceList: function() {
+            empDatabase.employeeList.splice(0, empDatabase.employeeList.length);
+
+            for (var i = 0; i < empDatabase.employeeList.length; i++) {
+                empDatabase.employeeList.push(empDatabase.employeeData[i].clientName);
+            }
+        },
+
+        updateEmpLists: function() {
+            empDatabase.employeeList.splice(0, empDatabase.employeeList.length);
+            empDatabase.employeeList.splice(0, empDatabase.employeeList.length);
+            empDatabase.adminList.splice(0, empDatabase.adminList.length);
+            empDatabase.serviceList.splice(0, empDatabase.serviceList.length);
+            empDatabase.artistList.splice(0, empDatabase.artistList.length);
+            empDatabase.copyWriteList.splice(0, empDatabase.copyWriteList.length);
+            empDatabase.graphicDesList.splice(0, empDatabase.graphicDesList.length);
+
+            for (var i = 0; i < empDatabase.employeeData.length; i++) {
+                empDatabase.employeeList.push(empDatabase.employeeData[i].empName);
+                if (empDatabase.employeeData[i].empRole == 'Admin'){
+                    empDatabase.adminList.push(empDatabase.employeeData[i].empName);
+                } else if (empDatabase.employeeData[i].empRole == 'Servicing') {
+                    empDatabase.serviceList.push(empDatabase.employeeData[i].empName);
+                } else if (empDatabase.employeeData[i].empRole == 'Artist') {
+                    empDatabase.artistList.push(empDatabase.employeeData[i].empName);
+                } else if (empDatabase.employeeData[i].empRole == 'Copy Writer') {
+                    empDatabase.copyWriteList.push(empDatabase.employeeData[i].empName);
+                } else if (empDatabase.employeeData[i].empRole == 'Graphic Designer') {
+                    empDatabase.graphicDesList.push(empDatabase.employeeData[i].empName);
+                }
+            }
+        },
+
+        testing: function() {
+            console.log(empDatabase);
+        },
+        getData: function() {
+            return empDatabase;
+        },
+    
+    }
+
+})(controller);
+
 // 2. UI Controller
-var UIController = (function(clientCtrl) {
+var UIController = (function(clientCtrl, empCtrl) {
 
     var DOMstrings = {
         // New Client Form
@@ -116,7 +303,7 @@ var UIController = (function(clientCtrl) {
         inputEmpName: '#emp-name',
         inputEmpDOB: '#emp-DOB',
         inputEmpBranch: '#emp-branch',
-        inputEmpRoll: '#emp-roll',
+        inputEmpRole: '#emp-role',
         empContainer: '.emp-list-container',
     }
 
@@ -258,7 +445,7 @@ var UIController = (function(clientCtrl) {
     var clearEmpForm = function() {
         var fields, fieldsArr;
 
-        fields = document.querySelectorAll(DOMstrings.inputEmpName + ', ' + DOMstrings.inputEmpDOB + ', ' + DOMstrings.inputEmpBranch + ', ' + DOMstrings.inputEmpRoll + ', ' + DOMstrings.empContainer);
+        fields = document.querySelectorAll(DOMstrings.inputEmpName + ', ' + DOMstrings.inputEmpDOB + ', ' + DOMstrings.inputEmpBranch + ', ' + DOMstrings.inputEmpRole + ', ' + DOMstrings.empContainer);
 
         fieldsArr = Array.prototype.slice.call(fields);
         fieldsArr.forEach(function(current, index, array) {
@@ -338,11 +525,28 @@ var UIController = (function(clientCtrl) {
             };
         },
 
+        updateServiceDropdown: function() {
+            var serviceListHTML;
+            var sorted = [];
+
+            document.getElementById('addedServiceList').innerHTML = '';
+
+            sorted = empCtrl.getData().serviceList.sort();
+            console.log(sorted);
+
+            for (var i = 0; i < sorted.length; i++) {
+                serviceListHTML =   `<select name="Servicing" id="addedServiceList">
+                                        <option value="${sorted[i]}" class="addedClientListItem">${sorted[i]}</option>
+                                    </select>`;
+                document.getElementById('addedServiceList').insertAdjacentHTML('beforeend', serviceListHTML);
+            };
+        },
+
         updateEmpList: function() {
             var storedEmpData, allEmployees;
 
             // Get stored data
-            storedEmpData = empController.getData().employeeData;
+            storedEmpData = empCtrl.getData().employeeData;
 
             // Select all employees from list
             allEmployees = document.querySelector('.emp-list-container').querySelectorAll('.new-emp');
@@ -362,14 +566,14 @@ var UIController = (function(clientCtrl) {
                     slNo = storedEmpData.length;
                 }
 
-                empHtml =   `<div class="new-emp" id="EMP-1">
+                empHtml =   `<div class="new-emp" id="${storedEmpData[i].empID}">
                             <div class="jobs-number emp-ele-div"><p>${i + 1}</p></div>
                             <div class="emp-name emp-ele-div"><p>${storedEmpData[i].empName}</p></div>
                             <div class="emp-DOB emp-ele-div"><p>${storedEmpData[i].empDOB}</p></div>
                             <div class="emp-branch emp-ele-div"><p>${storedEmpData[i].empBranch}</p></div>
-                            <div class="emp-roll emp-ele-div"><p>${storedEmpData[i].empRoll}</p></div>
+                            <div class="emp-role emp-ele-div"><p>${storedEmpData[i].empRole}</p></div>
                             <div class="emp-edit emp-ele-div"><p><ion-icon name="create-outline"></ion-icon></p></div>
-                            <div class="emp-delete emp-ele-div"><p><ion-icon name="trash-outline"></ion-icon></p></div>
+                            <div class="emp-delete emp-ele-div" id="${'D_' + storedEmpData[i].empID}"><p><ion-icon name="trash-outline"></ion-icon></p></div>
                             </div>`;
 
                     document.querySelector(element).insertAdjacentHTML('beforeend', empHtml);
@@ -408,64 +612,17 @@ var UIController = (function(clientCtrl) {
                 empName: document.querySelector(DOMstrings.inputEmpName).value,
                 empDOB: document.querySelector(DOMstrings.inputEmpDOB).value,
                 empBranch: document.querySelector(DOMstrings.inputEmpBranch).value,
-                empRoll: document.querySelector(DOMstrings.inputEmpRoll).value,
+                empRole: document.querySelector(DOMstrings.inputEmpRole).value,
             }
         },
 
         /////////////////////////////////////// EMPLOYEE ///////////////////////////////////////
     }
     
-})(clientController);
-
-var workgroupController = (function(){
-
-});
-
-var empController = (function(){
-    
-    var EmployeeDetails = function(empID, empName, empDOB, empBranch, empRoll){
-        this.empID = empID;
-        this.empName = empName;
-        this.empDOB = empDOB;
-        this.empBranch = empBranch;
-        this.empRoll = empRoll;
-    };
-
-    var empDatabase = {
-        employeeData: [],
-        employeeList: [],
-    };
-
-    return {
-
-        addNewEmp: function(empName, empDOB, empBranch, empRoll) {
-            var empID;
-            if (empDatabase.employeeData.length == 0) {
-                empID = 'EMP-' + 1;
-            } else if (empDatabase.employeeData.length > 0) {
-                empID = 'EMP-' + (empDatabase.employeeData.length + 1);
-            }
-
-            var newEmpAdded = new EmployeeDetails(empID, empName, empDOB, empBranch, empRoll);
-
-            empDatabase.employeeData.push(newEmpAdded);
-
-            return newEmpAdded;
-        },
-
-        testing: function() {
-            console.log(empDatabase);
-        },
-        getData: function() {
-            return empDatabase;
-        },
-    
-    }
-
-})(controller);
+})(clientController, empController);
 
 // 3. Central Controller
-var controller = (function(clientCtrl, UICtrl) {
+var controller = (function(clientCtrl, UICtrl, empCtrl) {
 
     var setupEventlisteners = function() {
         // Hide Side Menu Bar
@@ -500,6 +657,9 @@ var controller = (function(clientCtrl, UICtrl) {
 
         // Add New Employee
         document.querySelector('.add-new-emp').addEventListener('click', ctrlAddEmp);
+
+        // Delete existing employee
+        document.querySelector('.emp-list-container').addEventListener('click', ctrlDeleteEmp)
         
     }
 
@@ -521,7 +681,7 @@ var controller = (function(clientCtrl, UICtrl) {
         // 3. Update the Client UI
         clientCtrl.updateDataClientList();
         UICtrl.updateClientList();
-        UIController.updateClientDropdown();
+        UICtrl.updateClientDropdown();
 
     };
 
@@ -539,7 +699,7 @@ var controller = (function(clientCtrl, UICtrl) {
                 clientCtrl.deleteClient(itemID);
                 UICtrl.updateClientList(); 
                 clientCtrl.updateDataClientList();
-                UIController.updateClientDropdown();
+                UICtrl.updateClientDropdown();
             }   
         }
     };
@@ -551,16 +711,30 @@ var controller = (function(clientCtrl, UICtrl) {
         inputEM = UICtrl.getEmpData();
 
         // 2. Add the emp data to empDatabase
-        newEmp = empController.addNewEmp(inputEM.empName, inputEM.empDOB, inputEM.empBranch, inputEM.empRoll);
+        newEmp = empController.addNewEmp(inputEM.empName, inputEM.empDOB, inputEM.empBranch, inputEM.empRole);
 
         // Update the Employee UI
+        empCtrl.updateEmpLists();
         UICtrl.updateEmpList();
         UICtrl.clearEmpForm();
     };
 
     var ctrlDeleteEmp = function() {
 
-        // 1
+        var clientDeleteBtns = document.getElementsByClassName('emp-delete');
+        var clickedID, splitID, itemID;
+        for (var i = 0; i < clientDeleteBtns.length; i++) {
+            clientDeleteBtns[i].onclick = function() {
+                clickedID = this.id;
+                // console.log(clickedID);
+                splitID = clickedID.split('_');
+                // console.log(splitID);
+                itemID = splitID[1];
+                empCtrl.deleteEmp(itemID);
+                empCtrl.updateEmpLists();
+                UICtrl.updateEmpList();
+            }   
+        }
     };
 
 
@@ -571,10 +745,14 @@ var controller = (function(clientCtrl, UICtrl) {
             UICtrl.updateClientList();
             setupEventlisteners();
             clientCtrl.updateDataClientList();
-            UIController.updateClientDropdown();
+            UICtrl.updateClientDropdown();
+            empCtrl.updateDataServiceList();
+            UICtrl.updateServiceDropdown();
+            UICtrl.updateEmpList();
+            empCtrl.updateEmpLists();
         }
         
     }
-})(clientController, UIController);
+})(clientController, UIController, empController);
 
 controller.init();
