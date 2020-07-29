@@ -539,6 +539,7 @@ var UIController = (function(clientCtrl, empCtrl) {
                                         <option value="${sorted[i]}" class="addedClientListItem">${sorted[i]}</option>
                                     </select>`;
                 document.getElementById('addedServiceList').insertAdjacentHTML('beforeend', serviceListHTML);
+                
             };
         },
 
