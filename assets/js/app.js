@@ -95,6 +95,45 @@ var clientController = (function() {
 // 2. Job Controller
 var jobController = (function(){
 
+    var JobDetails = function(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubmitDate) {
+        this.jobID = jobID;
+        this.jobClientName = jobClientName;
+        this.jobServicing = jobServicing;
+        this.jobTitle = jobTitle;
+        this.jobType = jobType;
+        this.jobAddedDate = new Date();
+        this.jobStatus = jobStatus;
+        this.jobSubmitDate = jobSubmitDate;
+    };
+
+    var jobDatabase = {
+        jobsData: [],
+    };
+
+    return {
+        addNewJob: function(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubmitDate) {
+            var jobID;
+            if (jobDatabase.jobsData.length == 0) {
+                empID = 'JOB-' + 1;
+            } else if (jobDatabase.jobsData.length > 0) {
+                empID = 'EMP-' + (jobDatabase.jobsData.length + 1);
+            }
+
+            var newJobAdded = new JobDetails(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubmitDate);
+
+            jobDatabase.jobsData.push(newJobAdded);
+
+            return newEmpAdded;
+        },
+
+        testing: function() {
+            console.log(jobDatabase);
+        },
+        getData: function() {
+            return jobDatabase;
+        },
+    };
+
 });
 
 
@@ -237,14 +276,6 @@ var empController = (function(){
 
             if (index !== -1) {
                 empDatabase.employeeData.splice(index, 1);
-            }
-        },
-
-        updateDataServiceList: function() {
-            empDatabase.employeeList.splice(0, empDatabase.employeeList.length);
-
-            for (var i = 0; i < empDatabase.employeeList.length; i++) {
-                empDatabase.employeeList.push(empDatabase.employeeData[i].clientName);
             }
         },
 
@@ -532,14 +563,13 @@ var UIController = (function(clientCtrl, empCtrl) {
             document.getElementById('addedServiceList').innerHTML = '';
 
             sorted = empCtrl.getData().serviceList.sort();
-            console.log(sorted);
 
             for (var i = 0; i < sorted.length; i++) {
                 serviceListHTML =   `<select name="Servicing" id="addedServiceList">
-                                        <option value="${sorted[i]}" class="addedClientListItem">${sorted[i]}</option>
+                                        <option value="${sorted[i]}" class="addedServiceListItem">${sorted[i]}</option>
                                     </select>`;
                 document.getElementById('addedServiceList').insertAdjacentHTML('beforeend', serviceListHTML);
-                
+
             };
         },
 
@@ -618,6 +648,21 @@ var UIController = (function(clientCtrl, empCtrl) {
         },
 
         /////////////////////////////////////// EMPLOYEE ///////////////////////////////////////
+
+        ////////////////////////////////////////// JOB //////////////////////////////////////////
+
+        getJobData: function() {
+            return {
+                clientName: document.querySelector(DOMstrings.inputClientName).value,
+                clientAddress: document.querySelector(DOMstrings.inputClientAddress).value,
+                clientCity: document.querySelector(DOMstrings.inputClientCity).value,
+                clientRep: document.querySelector(DOMstrings.inputClientRep).value,
+                clientEmail: document.querySelector(DOMstrings.inputClientEmail).value,
+                clientPhone: document.querySelector(DOMstrings.inputClientPhone).value,
+            }
+        },
+
+        ////////////////////////////////////////// JOB //////////////////////////////////////////
     }
     
 })(clientController, empController);
@@ -738,19 +783,24 @@ var controller = (function(clientCtrl, UICtrl, empCtrl) {
         }
     };
 
+    var ctrlAddJob = function() {
+
+    };
+
 
     return {
         init: function() {
-            UICtrl.showEmployees();
-            console.log('App initialised!');
-            UICtrl.updateClientList();
             setupEventlisteners();
-            clientCtrl.updateDataClientList();
-            UICtrl.updateClientDropdown();
-            empCtrl.updateDataServiceList();
-            UICtrl.updateServiceDropdown();
-            UICtrl.updateEmpList();
+            
+            
+            clientCtrl.updateDataClientList();            
             empCtrl.updateEmpLists();
+            UICtrl.showEmployees();
+            UICtrl.updateClientList();
+            UICtrl.updateClientDropdown();
+            UICtrl.updateEmpList();
+            UICtrl.updateServiceDropdown();
+            console.log('App initialised!');
         }
         
     }

@@ -347,22 +347,41 @@ body {
     text-transform: uppercase;
 }
 
-.new-jobs {
-    font-size: 14px;
-    height: 30px;
-    margin-bottom: 2px;
+.job-list-container {
+    width: 1125px;
+    height: calc(100vh - 180px);
+    overflow: hidden;
+    overflow-y: scroll;
+}
+.job-list-container::-webkit-scrollbar{
+    width: 3px;
+}
+.job-list-container::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: gray;
 }
 
-.new-jobs div {
+.new-jobs {
+    height: auto;
+    margin-bottom: 2px;
+    width: 1200px;
+    display: inline-block;
+    border-bottom: 1px solid gray;
+}
+
+.job-ele-div {
     padding: 5px;
+    height: auto;
     display: inline-block;
     position: relative;
-    border-right: 1px solid white;
+    vertical-align: middle;
 }
 
 .new-jobs p {
-    color: gray;
+    font-size: 12px;
+    color: black;
     margin: 0;
+    padding: 5px;
     text-align: center;
 }
 
@@ -393,8 +412,30 @@ body {
 .jobs-submit {
     width: 100px;
 }
-.jobs-edit, .jobs-delete {
+.jobs-edit {
     width: 30px;
+}
+.jobs-edit p{
+    font-size: 16px;
+    width: 30px;
+}
+.jobs-edit :hover {
+    color: green;
+    cursor: pointer;
+}
+.jobs-delete {
+    font-size: 20px;
+    width: 30px;
+}
+.jobs-delete p {
+    font-size: 16px;
+}
+.jobs-delete :hover {
+    color: white;
+    cursor: pointer;
+    background-color: red;
+    transition: .3s;
+    border-radius: 3px;
 }
 
 /* /////////////////////////////// CLIENTS CONTAINER /////////////////////////////// */
