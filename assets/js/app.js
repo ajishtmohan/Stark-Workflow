@@ -94,36 +94,40 @@ var clientController = (function() {
 
 // 2. Job Controller
 var jobController = (function(){
+    var jobAddedDate = new Date()
 
-    var JobDetails = function(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubmitDate) {
+    var JobDetails = function(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate) {
         this.jobID = jobID;
         this.jobClientName = jobClientName;
         this.jobServicing = jobServicing;
         this.jobTitle = jobTitle;
         this.jobType = jobType;
-        this.jobAddedDate = new Date();
+        this.jobAddedDate = jobAddedDate;
         this.jobStatus = jobStatus;
-        this.jobSubmitDate = jobSubmitDate;
+        this.jobSubDate = jobSubDate;
     };
 
     var jobDatabase = {
         jobsData: [],
+        jobStatus: ['upcoming', 'active', 'pending', 'completed']
     };
 
     return {
-        addNewJob: function(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubmitDate) {
+        addNewJob: function(jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate) {
             var jobID;
             if (jobDatabase.jobsData.length == 0) {
-                empID = 'JOB-' + 1;
+                jobID = 'JOB-' + 1;
             } else if (jobDatabase.jobsData.length > 0) {
-                empID = 'EMP-' + (jobDatabase.jobsData.length + 1);
+                jobID = 'JOB-' + (jobDatabase.jobsData.length + 1);
             }
 
-            var newJobAdded = new JobDetails(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubmitDate);
+            var jobStatus = jobDatabase.jobStatus[0];
+
+            var newJobAdded = new JobDetails(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate);
 
             jobDatabase.jobsData.push(newJobAdded);
 
-            return newEmpAdded;
+            return newJobAdded;
         },
 
         testing: function() {
@@ -134,7 +138,7 @@ var jobController = (function(){
         },
     };
 
-});
+})();
 
 
 
@@ -316,7 +320,7 @@ var empController = (function(){
 })(controller);
 
 // 2. UI Controller
-var UIController = (function(clientCtrl, empCtrl) {
+var UIController = (function(clientCtrl, empCtrl, jobCtrl) {
 
     var DOMstrings = {
         // New Client Form
@@ -336,6 +340,13 @@ var UIController = (function(clientCtrl, empCtrl) {
         inputEmpBranch: '#emp-branch',
         inputEmpRole: '#emp-role',
         empContainer: '.emp-list-container',
+
+        // Job List
+        inputJobClientName: '#addedClientList',
+        inputJobServicing: '#addedServiceList',
+        inputJobTitle: '#job-title',
+        inputJobType: '#addedJobTypeList',
+        inputJobAddedDate: '#job-date',
     }
 
     var hideSideMenu = function() {
@@ -653,22 +664,21 @@ var UIController = (function(clientCtrl, empCtrl) {
 
         getJobData: function() {
             return {
-                clientName: document.querySelector(DOMstrings.inputClientName).value,
-                clientAddress: document.querySelector(DOMstrings.inputClientAddress).value,
-                clientCity: document.querySelector(DOMstrings.inputClientCity).value,
-                clientRep: document.querySelector(DOMstrings.inputClientRep).value,
-                clientEmail: document.querySelector(DOMstrings.inputClientEmail).value,
-                clientPhone: document.querySelector(DOMstrings.inputClientPhone).value,
+                jobClientName: document.querySelector(DOMstrings.inputJobClientName).value,
+                jobServicing: document.querySelector(DOMstrings.inputJobServicing).value,
+                jobTitle: document.querySelector(DOMstrings.inputJobTitle).value,
+                jobType: document.querySelector(DOMstrings.inputJobType).value,
+                jobSubDate: document.querySelector(DOMstrings.inputJobAddedDate).value,
             }
         },
 
         ////////////////////////////////////////// JOB //////////////////////////////////////////
     }
     
-})(clientController, empController);
+})(clientController, empController, jobController);
 
 // 3. Central Controller
-var controller = (function(clientCtrl, UICtrl, empCtrl) {
+var controller = (function(clientCtrl, UICtrl, empCtrl, jobCtrl) {
 
     var setupEventlisteners = function() {
         // Hide Side Menu Bar
@@ -706,10 +716,11 @@ var controller = (function(clientCtrl, UICtrl, empCtrl) {
 
         // Delete existing employee
         document.querySelector('.emp-list-container').addEventListener('click', ctrlDeleteEmp)
+
+        // Add New Job
+        document.querySelector('.add-new-job').addEventListener('click', ctrlAddJob);
         
     }
-
-    
 
     var ctrlAddClient = function() {
         // UICtrl.getClientFormState();
@@ -784,7 +795,15 @@ var controller = (function(clientCtrl, UICtrl, empCtrl) {
     };
 
     var ctrlAddJob = function() {
+        var inputJOB, newJob;
+        // 1. Get input from UI
+        inputJOB = UICtrl.getJobData();
 
+        // 2. Add the job data to jobDatabase
+        newJob = jobController.addNewJob(inputJOB.jobClientName, inputJOB.jobServicing, inputJOB.jobTitle, inputJOB.jobType, inputJOB.jobSubDate);
+        console.log(newJob);
+        
+        // 3. Update the Job list UI
     };
 
 
@@ -804,6 +823,6 @@ var controller = (function(clientCtrl, UICtrl, empCtrl) {
         }
         
     }
-})(clientController, UIController, empController);
+})(clientController, UIController, empController, jobController);
 
 controller.init();
