@@ -94,7 +94,6 @@ var clientController = (function() {
 
 // 2. Job Controller
 var jobController = (function(){
-    var jobAddedDate = new Date()
 
     var JobDetails = function(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate) {
         this.jobID = jobID;
@@ -113,15 +112,15 @@ var jobController = (function(){
     };
 
     return {
-        addNewJob: function(jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate) {
-            var jobID;
+        addNewJob: function(jobClientName, jobServicing, jobTitle, jobType, jobSubDate) {
+            var jobID, jobAddedDate, jobStatus;
             if (jobDatabase.jobsData.length == 0) {
                 jobID = 'JOB-' + 1;
             } else if (jobDatabase.jobsData.length > 0) {
                 jobID = 'JOB-' + (jobDatabase.jobsData.length + 1);
             }
-
-            var jobStatus = jobDatabase.jobStatus[0];
+            jobAddedDate = Date();
+            jobStatus = jobDatabase.jobStatus[0];
 
             var newJobAdded = new JobDetails(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate);
 
@@ -346,7 +345,7 @@ var UIController = (function(clientCtrl, empCtrl, jobCtrl) {
         inputJobServicing: '#addedServiceList',
         inputJobTitle: '#job-title',
         inputJobType: '#addedJobTypeList',
-        inputJobAddedDate: '#job-date',
+        inputJobSubDate: '#job-sub-date',
     }
 
     var hideSideMenu = function() {
@@ -668,7 +667,7 @@ var UIController = (function(clientCtrl, empCtrl, jobCtrl) {
                 jobServicing: document.querySelector(DOMstrings.inputJobServicing).value,
                 jobTitle: document.querySelector(DOMstrings.inputJobTitle).value,
                 jobType: document.querySelector(DOMstrings.inputJobType).value,
-                jobSubDate: document.querySelector(DOMstrings.inputJobAddedDate).value,
+                jobSubDate: document.querySelector(DOMstrings.inputJobSubDate).value,
             }
         },
 
@@ -773,6 +772,7 @@ var controller = (function(clientCtrl, UICtrl, empCtrl, jobCtrl) {
         // Update the Employee UI
         empCtrl.updateEmpLists();
         UICtrl.updateEmpList();
+        UICtrl.updateServiceDropdown();
         UICtrl.clearEmpForm();
     };
 
@@ -789,6 +789,7 @@ var controller = (function(clientCtrl, UICtrl, empCtrl, jobCtrl) {
                 itemID = splitID[1];
                 empCtrl.deleteEmp(itemID);
                 empCtrl.updateEmpLists();
+                UICtrl.updateServiceDropdown();
                 UICtrl.updateEmpList();
             }   
         }
@@ -801,7 +802,7 @@ var controller = (function(clientCtrl, UICtrl, empCtrl, jobCtrl) {
 
         // 2. Add the job data to jobDatabase
         newJob = jobController.addNewJob(inputJOB.jobClientName, inputJOB.jobServicing, inputJOB.jobTitle, inputJOB.jobType, inputJOB.jobSubDate);
-        console.log(newJob);
+        console.log(inputJOB.jobSubDate);
         
         // 3. Update the Job list UI
     };
@@ -811,8 +812,7 @@ var controller = (function(clientCtrl, UICtrl, empCtrl, jobCtrl) {
         init: function() {
             setupEventlisteners();
             
-            
-            clientCtrl.updateDataClientList();            
+            clientCtrl.updateDataClientList();
             empCtrl.updateEmpLists();
             UICtrl.showEmployees();
             UICtrl.updateClientList();
