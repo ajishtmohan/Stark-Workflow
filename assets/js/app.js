@@ -794,6 +794,7 @@ var controller = (function(clientCtrl, UICtrl, empCtrl, jobCtrl) {
             }   
         }
     };
+    
 
     var ctrlAddJob = function() {
         var inputJOB, newJob;
