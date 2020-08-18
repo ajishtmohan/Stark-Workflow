@@ -93,11 +93,12 @@ var clientController = (function() {
 })();
 
 // 2. Job Controller
-var jobController = (function(){
+var jobController = (function(empCtrl){
 
-    var JobDetails = function(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate) {
+    var JobDetails = function(jobID, jobClientName, jobBranch, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate) {
         this.jobID = jobID;
         this.jobClientName = jobClientName;
+        this.jobBranch = jobBranch;
         this.jobServicing = jobServicing;
         this.jobTitle = jobTitle;
         this.jobType = jobType;
@@ -113,16 +114,38 @@ var jobController = (function(){
 
     return {
         addNewJob: function(jobClientName, jobServicing, jobTitle, jobType, jobSubDate) {
-            var jobID, jobAddedDate, jobStatus;
+            var jobID, jobAddedDate, jobStatus, jobBranch;
             if (jobDatabase.jobsData.length == 0) {
                 jobID = 'JOB-' + 1;
             } else if (jobDatabase.jobsData.length > 0) {
                 jobID = 'JOB-' + (jobDatabase.jobsData.length + 1);
             }
-            jobAddedDate = Date();
+            formatAddedDate = function() {
+                months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                var dd = new Date().getDate();
+                var mm = new Date().getMonth();
+                var yyyy = new Date().getFullYear();
+                jobAddedDate = `${months[mm]} ${dd}, ${yyyy}`;
+            },
+            formatAddedDate();
+
+            formatSubDate = function() {
+                var jobSubDateSplit = jobSubDate.split('-');
+                jobSubDate = `${months[jobSubDateSplit[1] - 1]} ${jobSubDateSplit[2]}, ${jobSubDateSplit[0]}`;
+            },
+            formatSubDate();
+
             jobStatus = jobDatabase.jobStatus[0];
 
-            var newJobAdded = new JobDetails(jobID, jobClientName, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate);
+            findBranch = function() {
+                var employeeData = empController.getData().employeeData;
+                var targetIndex = employeeData.findIndex(item => item.empName === jobServicing);
+                console.log(targetIndex);
+                jobBranch = employeeData[targetIndex].empBranch;
+            };
+            findBranch();
+
+            var newJobAdded = new JobDetails(jobID, jobClientName, jobBranch, jobServicing, jobTitle, jobType, jobAddedDate, jobStatus, jobSubDate);
 
             jobDatabase.jobsData.push(newJobAdded);
 
@@ -137,7 +160,7 @@ var jobController = (function(){
         },
     };
 
-})();
+})(empController);
 
 
 
@@ -346,6 +369,7 @@ var UIController = (function(clientCtrl, empCtrl, jobCtrl) {
         inputJobTitle: '#job-title',
         inputJobType: '#addedJobTypeList',
         inputJobSubDate: '#job-sub-date',
+        jobContainer: '.job-list-container',
     }
 
     var hideSideMenu = function() {
@@ -623,6 +647,50 @@ var UIController = (function(clientCtrl, empCtrl, jobCtrl) {
             }
         },
 
+        updateJobList: function() {
+            var storedJobData, allJobs, branch;
+
+            // Get stored data
+            storedJobData = jobCtrl.getData().jobsData;
+
+            // Select all employees from list
+            allJobs = document.querySelector('.job-list-container').querySelectorAll('.new-jobs');
+
+            // Remove all employees from Client List
+            for (var i = 0; i < allJobs.length; i++) {
+                allJobs[i].remove();
+            }
+
+            var element = DOMstrings.jobContainer;
+
+            for (var i = 0; i < storedJobData.length; i++) {
+
+                if (storedJobData.length == 0) {
+                    slNo = 1;
+                } else if (storedJobData.length > 0){
+                    slNo = storedJobData.length;
+                }
+
+                jobsHtml =  `<div class="new-jobs" id="JOB-1">
+                                <div class="jobs-number job-ele-div"><p>${i + 1}</p></div>
+                                <div class="jobs-client job-ele-div"><p>${storedJobData[i].jobClientName}</p></div>
+                                <div class="jobs-branch job-ele-div"><p>${storedJobData[i].jobBranch}</p></div>
+                                <div class="jobs-servicing job-ele-div"><p>${storedJobData[i].jobServicing}</p></div>
+                                <div class="jobs-title job-ele-div"><p>${storedJobData[i].jobTitle}</p></div>
+                                <div class="jobs-type job-ele-div"><p>${storedJobData[i].jobType}</p></div>
+                                <div class="jobs-added job-ele-div"><p>${storedJobData[i].jobAddedDate}</p></div>
+                                <div class="jobs-status job-ele-div"><p>${storedJobData[i].jobStatus}</p></div>
+                                <div class="jobs-submit job-ele-div"><p>${storedJobData[i].jobSubDate}</p></div>
+                                <div class="jobs-edit job-ele-div"><p><ion-icon name="create-outline"></ion-icon></p></div>
+                                <div class="jobs-delete job-ele-div"><p><ion-icon name="trash-outline"></ion-icon></p></div>
+                            </div>`;
+
+                    document.querySelector(element).insertAdjacentHTML('beforeend', jobsHtml);
+
+                    slNo ++;
+            }
+        },
+
         showDashboard,
         showJobs,
         showClients,
@@ -803,9 +871,9 @@ var controller = (function(clientCtrl, UICtrl, empCtrl, jobCtrl) {
 
         // 2. Add the job data to jobDatabase
         newJob = jobController.addNewJob(inputJOB.jobClientName, inputJOB.jobServicing, inputJOB.jobTitle, inputJOB.jobType, inputJOB.jobSubDate);
-        console.log(inputJOB.jobSubDate);
         
         // 3. Update the Job list UI
+        UICtrl.updateJobList();
     };
 
 
